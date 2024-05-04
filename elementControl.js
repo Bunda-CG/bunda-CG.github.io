@@ -14,6 +14,11 @@ export class Graphic {
 
         this.ctx = this.canvas.getContext("2d");
         this.image = this.ctx.getImageData(0, 0, this.canvas.clientWidth, this.canvas.clientHeight);
+
+        this.red = cf.RED;
+        this.green = cf.GREEN;
+        this.blue = cf.BLUE;
+        this.alpha = cf.ALPHA;
     }
 
     setPixel(x, y) {
@@ -21,19 +26,26 @@ export class Graphic {
         let flippedY = this.height - y
         let pixIdx = (this.width * flippedY + x) * 4;
         // Red
-        this.image.data[pixIdx + 0] = 0;
+        this.image.data[pixIdx + 0] = this.red;
 
         // Green
-        this.image.data[pixIdx + 1] = 0;
+        this.image.data[pixIdx + 1] = this.green;
 
         // Blue
-        this.image.data[pixIdx + 2] = 0;
+        this.image.data[pixIdx + 2] = this.blue;
 
         // Alpha
-        this.image.data[pixIdx + 3] = 255;
+        this.image.data[pixIdx + 3] = this.alpha;
     }
 
-    draw() {
+    setColor(r, g, b, a) {
+        this.red = r;
+        this.green = g;
+        this.blue = b;
+        this.alpha = a;
+    }
+
+    update() {
         this.ctx.putImageData(this.image, 0, 0);
     }
 }
