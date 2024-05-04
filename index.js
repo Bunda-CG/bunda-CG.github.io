@@ -1,6 +1,8 @@
 import * as elem from './elementControl.js';
 
 const gp = new elem.Graphic();
+let fps = 30;
+let timeInterval = 1000/fps;
 
 // small box
 for (let y = 10; y < 30; y++) {
@@ -9,9 +11,15 @@ for (let y = 10; y < 30; y++) {
     }
 }
 
-// rand noise
-for (let i = 0; i < 99999; i++) {
-    gp.setPixel(math.randomInt(0, 800), math.randomInt(0, 600));
+function randNoise () {    // rand noise
+    for (let i = 0; i < 99999; i++) {
+        gp.setPixel(math.randomInt(0, 800), math.randomInt(0, 600));
+    }
+}
+
+function drawRandomPoints () {
+    randNoise();
+    gp.draw();
 }
 
 class point {
@@ -27,5 +35,5 @@ class obj {
     }
 }
 
-gp.draw();
+setInterval(drawRandomPoints,timeInterval.toFixed());
 elem.print("Kakangku");
