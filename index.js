@@ -56,5 +56,15 @@ function rotation (p, degree, center) {
     p.x = res.subset(math.index(0,1));
 }
 
+function scaling (p, sx, sy, fixedpoint) {
+    const pointMatrix = math.matrix([p.x],[p.y],1);
+    const compMatrix = math.matrix([sx, 0, (1-sx) * fixedpoint.x], [0, sy, (1-sy) * fixedpoint.y], [0,0,1]);
+
+    const res = math.multiply(pointMatrix,compMatrix);
+
+    p.x = res.subset(math.index(0,0));
+    p.x = res.subset(math.index(0,1));
+}
+
 setInterval(drawRandomPoints,timeInterval.toFixed());
 elem.print("Kakangku");
