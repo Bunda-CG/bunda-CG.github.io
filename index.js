@@ -66,5 +66,25 @@ function scaling (p, sx, sy, fixedpoint) {
     p.x = res.subset(math.index(0,1));
 }
 
+function shearx(p, sh, yref) {
+    const pointMatrix = math.matrix([p.x],[p.y],1);
+    const compMatrix = math.matrix([1, sh, -(sh*yref)], [0, 1, 0], [0,0,1]);
+
+    const res = math.multiply(pointMatrix,compMatrix);
+
+    p.x = res.subset(math.index(0,0));
+    p.x = res.subset(math.index(0,1));
+}
+
+function sheary(p, sh, xref) {
+    const pointMatrix = math.matrix([p.x],[p.y],1);
+    const compMatrix = math.matrix([1, 0, 0], [sh, 1, -(sh*xref)], [0,0,1]);
+
+    const res = math.multiply(pointMatrix,compMatrix);
+
+    p.x = res.subset(math.index(0,0));
+    p.x = res.subset(math.index(0,1));
+}
+
 setInterval(drawRandomPoints,timeInterval.toFixed());
 elem.print("Kakangku");
