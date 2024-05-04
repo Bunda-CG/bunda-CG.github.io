@@ -11,7 +11,8 @@ for (let y = 10; y < 30; y++) {
     }
 }
 
-function randNoise () {    // rand noise
+// rand noise
+function randNoise () {    
     for (let i = 0; i < 99999; i++) {
         gp.setPixel(math.randomInt(0, 800), math.randomInt(0, 600));
     }
@@ -84,6 +85,18 @@ function sheary(p, sh, xref) {
 
     p.x = res.subset(math.index(0,0));
     p.x = res.subset(math.index(0,1));
+}
+
+function drawObj(object) {
+    for(let i = 0;i < object.pointlist.length;i++){
+        setPixel(pointlist[i].x,pointlist[i].y);
+    }
+}
+
+function drawAll(objectlist) {
+    for(let i = 0;i < objectlist.length;i++){
+        drawObj(objectlist[i]);
+    }
 }
 
 setInterval(drawRandomPoints,timeInterval.toFixed());
