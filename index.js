@@ -22,5 +22,4 @@ class point {
 }
 
 gp.draw();
-elem.print("Hello world");
 elem.print("Kakangku");
