@@ -14,5 +14,13 @@ for (let i = 0; i < 99999; i++) {
     gp.setPixel(math.randomInt(0, 800), math.randomInt(0, 600));
 }
 
+class point {
+    constructor(x,y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
 gp.draw();
 elem.print("Hello world");
+elem.print("Kakangku")
