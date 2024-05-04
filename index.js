@@ -21,5 +21,11 @@ class point {
     }
 }
 
+class obj {
+    constructor(pointlist){
+        this.pointlist = pointlist;
+    }
+}
+
 gp.draw();
 elem.print("Kakangku");
