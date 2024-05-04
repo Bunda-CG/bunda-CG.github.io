@@ -35,5 +35,26 @@ class obj {
     }
 }
 
+function translation (p, tx, ty) {
+    p.x = p.x + tx;
+    p.y = p.y + ty;
+}
+
+function rotation (p, degree, center) {
+    let rad = degree * Math.PI/180;
+
+    let cos = Math.cos(rad);
+    let sin = Math.sin(rad);
+    let cos1 = 1 - (Math.cos(rad));
+
+    const pointMatrix = math.matrix([p.x],[p.y],1);
+    const compMatrix = math.matrix([cos,-sin,(center.x*cos1) + (center.y*sin)], [sin,cos,(center.y*cos1) - (center.x*sin)], [0,0,1]);
+
+    const res = math.multiply(pointMatrix,compMatrix);
+
+    p.x = res.subset(math.index(0,0));
+    p.x = res.subset(math.index(0,1));
+}
+
 setInterval(drawRandomPoints,timeInterval.toFixed());
 elem.print("Kakangku");
