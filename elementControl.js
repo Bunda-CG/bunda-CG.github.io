@@ -1,13 +1,21 @@
 import * as cf from './config.js';
 
-export function print(text) {
+export function print(...text) {
     const pBox = document.getElementById(cf.CONSOLE_NAME);
-    pBox.innerHTML += text + "<br>";
+    let combinedText = "";
+    text.forEach((elemText) => {
+        combinedText += elemText + "<br>";
+    });
+    pBox.innerHTML += combinedText;
 }
 
-export function updatePrint(text) {
+export function updatePrint(...text) {
     const updateBox = document.getElementById(cf.CONSOLE_UPDATE);
-    updateBox.innerHTML = text;
+    let combinedText = "";
+    text.forEach((elemText) => {
+        combinedText += elemText + "<br>";
+    });
+    updateBox.innerHTML = combinedText;
 }
 
 export class Graphic {
