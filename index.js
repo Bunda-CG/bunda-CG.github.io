@@ -46,25 +46,8 @@ let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";
 elem.print(fpsCapText, frameTimeText);
 
 setInterval(runner, cf.FRAME_TIME);
-
-
-
-
-
-/*import * as elem from './elementControl.js';
-import * as cf from './config.js';
-
-const gp = new elem.Graphic();
-let fps = 30;
-let timeInterval = 1000/fps;
-
-// small box
-gp.setColor(255, 255, 255, 255);
-for (let y = 10; y < 30; y++) {
-    for (let x = 10; x < 30; x++) {
-        gp.setPixel(x, y);
+/*
     }
-}
 
 // rand noise
 gp.setColor(127, 0, 127, 255);
@@ -79,6 +62,7 @@ function drawRandomPoints () {
     gp.update();
 }
 
+setInterval(runner, cf.FRAME_TIME);
 class point {
     constructor(x,y) {
         this.x = x;
