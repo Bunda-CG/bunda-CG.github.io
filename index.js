@@ -1,3 +1,101 @@
+import * as elem from './elementControl.js';
+import * as cf from './config.js';
+import * as tm from './timer.js';
+import * as animation from './animation.js';
+
+const gp = new elem.Graphic();
+const timer = new tm.Timer();
+
+timer.start();
+
+function runner() {
+    const start = new Date();
+    gp.refresh();
+
+    // small box
+    gp.setColor(127, 127, 127, 255);
+    for (let y = 50; y < 100; y++) {
+        for (let x = 50; x < 100; x++) {
+            gp.setPixel(x, y);
+        }
+    }
+
+    //draw all object
+    drawAll(objectlist);
+
+    gp.update();
+
+    // calculate time to render
+    const end = new Date();
+    const time = end.getTime() - start.getTime();
+    const fps = 1000 / time; //fps=1000/time
+    let timeText = tm.toSecond(timer.howLong()) + " seconds";
+    let fpsPotentialText = "FPS Potential: " + fps.toFixed(0);
+    let frameTimePotentialText = "Frame Time Potential: " + time + "ms";
+    elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
+}
+
+class point {
+    constructor(x,y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class obj {
+    constructor(){
+        this.pointlist = [];
+    }
+
+
+    createRectangle(x,y,width,height){
+        this.pointlist.push(new point(x,y));
+
+        let xw = x + width;
+        let yh = y + height;
+        for(let i = 0; i <= width; i++ ) {
+            this.pointlist.push(new point(x+i,y));
+            this.pointlist.push(new point(x+i,yh));
+        }
+        for(let i = 0; i <= height; i++ ) {
+            this.pointlist.push(new point(x,y+i));
+            this.pointlist.push(new point(xw,y+i));
+        }
+    }
+
+    createSpline(){
+
+    }
+
+    draw(){
+        for(let i = 0;i < this.pointlist.length;i++){
+            gp.setPixel(this.pointlist[i].x,this.pointlist[i].y);
+        } 
+    }
+}
+
+function drawAll(objectlist) {
+    
+    for(let i = 0;i < objectlist.length;i++){
+        objectlist[i].draw();
+    }
+}
+
+const objectlist = [];
+const testobj = new obj();
+testobj.createRectangle(100,100,200,100);
+objectlist.push(testobj);
+
+let fpsCapText = "FPS Capacity: " + cf.FPS;
+let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";
+elem.print(fpsCapText, frameTimeText);
+
+setInterval(runner, cf.FRAME_TIME);
+
+
+
+
+
 /*import * as elem from './elementControl.js';
 import * as cf from './config.js';
 
@@ -105,59 +203,3 @@ function drawAll(objectlist) {
 gp.update();
 elem.print("FPS: " + cf.FPS)
 elem.print("frameTime: " + cf.FRAME_TIME + "ms");*/
-
-import * as elem from './elementControl.js';
-import * as cf from './config.js';
-import * as tm from './timer.js';
-
-const gp = new elem.Graphic();
-const timer = new tm.Timer();
-
-timer.start();
-
-function runner() {
-    const start = new Date();
-    gp.refresh();
-
-    // small box
-    gp.setColor(127, 127, 127, 255);
-    for (let y = 50; y < 100; y++) {
-        for (let x = 50; x < 100; x++) {
-            gp.setPixel(x, y);
-        }
-    }
-
-    // rand noise
-    gp.setColor(0, 0, 0, 255);
-    for (let i = 0; i < 99999; i++) {
-        gp.setPixel(math.randomInt(0, 800), math.randomInt(0, 600));
-    }
-
-    gp.update();
-
-    // calculate time to render
-    const end = new Date();
-    const time = end.getTime() - start.getTime();
-    const fps = 1000 / time; //fps=1000/time
-    let timeText = tm.toSecond(timer.howLong()) + " seconds";
-    let fpsPotentialText = "FPS Potential: " + fps.toFixed(0);
-    let frameTimePotentialText = "Frame Time Potential: " + time + "ms";
-    elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
-}
-
-setInterval(runner, cf.FRAME_TIME);
-class point {
-    constructor(x,y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-class obj {
-    constructor(pointlist){
-        this.pointlist = pointlist;
-    }
-}
-let fpsCapText = "FPS Capacity: " + cf.FPS;
-let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";
-elem.print(fpsCapText, frameTimeText);
