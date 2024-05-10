@@ -36,8 +36,10 @@ function runner() {
 }
 
 const objectlist = [];
-const testobj = new anim.rectangle(gp,100,100,300,250);
-objectlist.push(testobj);
+
+const testspline = new anim.cubicBezierSpline(gp,100,550, 200,550, 150,525, 250,525);
+
+objectlist.push(testspline);
 
 let fpsCapText = "FPS Capacity: " + cf.FPS;
 let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";

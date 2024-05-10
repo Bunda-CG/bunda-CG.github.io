@@ -43,6 +43,7 @@ export class rectangle extends obj {
 
 export class polygon extends obj {
     constructor (gp) {
+        super();
         this.gp = gp;
         this.pointlist = [];
     }
@@ -52,7 +53,42 @@ export class polygon extends obj {
     }
 
     draw(){
+
+    }
+}
+
+export class cubicBezierSpline extends obj {
+    constructor (gp,x1,y1,x2,y2,x3,y3,x4,y4) {
+        super();
+        this.gp = gp;
+
+        this.x1 = x1;
+        this.y1 = y1;
+
+        this.x2 = x2;
+        this.y2 = y2;
         
+        this.x3 = x3;
+        this.y3 = y3;
+
+        this.x4 = x4;
+        this.y4 = y4;
+    }
+
+    draw() {
+        let interval = 1/1024;
+        let u = 0;
+        let u1;
+        let px;
+        let py;
+        while (u < 1) {
+            u1 = 1-u;
+            px = ( this.x1*u1*u1*u1 ) + ( this.x2*3*u*u1*u1 ) + ( this.x3*3*u*u*u1 ) + ( this.x4*u*u*u );
+            py = ( this.y1*u1*u1*u1 ) + ( this.y2*3*u*u1*u1 ) + ( this.y3*3*u*u*u1 ) + ( this.y4*u*u*u );
+            
+            this.gp.setPixel(parseInt(px), parseInt(py));
+            u = u+interval;
+        }
     }
 }
 
