@@ -1,7 +1,11 @@
 import * as elem from './elementControl.js';
 import * as cf from './config.js';
+import * as tm from './timer.js';
 
 const gp = new elem.Graphic();
+const timer = new tm.Timer();
+
+timer.start();
 
 function runner() {
     const start = new Date();
@@ -27,9 +31,10 @@ function runner() {
     const end = new Date();
     const time = end.getTime() - start.getTime();
     const fps = 1000 / time; //fps=1000/time
+    let timeText = tm.toSecond(timer.howLong()) + " seconds";
     let fpsPotentialText = "FPS Potential: " + fps.toFixed(0);
     let frameTimePotentialText = "Frame Time Potential: " + time + "ms";
-    elem.updatePrint(fpsPotentialText, frameTimePotentialText);
+    elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
 }
 
 setInterval(runner, cf.FRAME_TIME);
