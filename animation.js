@@ -1,4 +1,68 @@
-export function translation (p, tx, ty) {
+class point {
+    constructor(x,y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class obj {
+    constructor(){
+        
+    }
+
+    draw(){
+        for(let i = 0;i < this.pointlist.length;i++){
+            gp.setPixel(this.pointlist[i].x,this.pointlist[i].y);
+        } 
+    }
+}
+
+export class rectangle extends obj {
+    constructor(gp,x,y,width,height){
+        super();
+        this.gp = gp;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
+    draw(){
+        let xw = this.x + this.width;
+        let yh = this.y + this.height;
+        for(let i = 0; i <= this.width; i++ ) {
+            this.gp.setPixel(this.x+i, this.y);
+            this.gp.setPixel(this.x+i, yh);
+        }
+        for(let i = 0; i <= this.height; i++ ) {
+            this.gp.setPixel(this.x, this.y+i);
+            this.gp.setPixel(xw,this.y+i);
+        }
+    }
+}
+
+export class polygon extends obj {
+    constructor (gp) {
+        this.gp = gp;
+        this.pointlist = [];
+    }
+
+    addPoint (x,y) {
+        this.pointlist.push(new point(x,y));
+    }
+
+    draw(){
+        
+    }
+}
+
+export function drawAll(objectlist) {
+    for(let i = 0;i < objectlist.length;i++){
+        objectlist[i].draw();
+    }
+}
+
+/*export function translation (p, tx, ty) {
     p.x = p.x + tx;
     p.y = p.y + ty;
 }
@@ -47,4 +111,5 @@ export function sheary(p, sh, xref) {
 
     p.x = res.subset(math.index(0,0));
     p.x = res.subset(math.index(0,1));
-}
+}*/
+

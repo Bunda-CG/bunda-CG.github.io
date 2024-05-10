@@ -1,7 +1,7 @@
 import * as elem from './elementControl.js';
 import * as cf from './config.js';
 import * as tm from './timer.js';
-import * as animation from './animation.js';
+import * as anim from './animation.js';
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -21,7 +21,7 @@ function runner() {
     }
 
     //draw all object
-    drawAll(objectlist);
+    anim.drawAll(objectlist);
 
     gp.update();
 
@@ -35,55 +35,8 @@ function runner() {
     elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
 }
 
-class point {
-    constructor(x,y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-class obj {
-    constructor(){
-        this.pointlist = [];
-    }
-
-
-    createRectangle(x,y,width,height){
-        this.pointlist.push(new point(x,y));
-
-        let xw = x + width;
-        let yh = y + height;
-        for(let i = 0; i <= width; i++ ) {
-            this.pointlist.push(new point(x+i,y));
-            this.pointlist.push(new point(x+i,yh));
-        }
-        for(let i = 0; i <= height; i++ ) {
-            this.pointlist.push(new point(x,y+i));
-            this.pointlist.push(new point(xw,y+i));
-        }
-    }
-
-    createSpline(){
-
-    }
-
-    draw(){
-        for(let i = 0;i < this.pointlist.length;i++){
-            gp.setPixel(this.pointlist[i].x,this.pointlist[i].y);
-        } 
-    }
-}
-
-function drawAll(objectlist) {
-    
-    for(let i = 0;i < objectlist.length;i++){
-        objectlist[i].draw();
-    }
-}
-
 const objectlist = [];
-const testobj = new obj();
-testobj.createRectangle(100,100,200,100);
+const testobj = new anim.rectangle(gp,100,100,300,250);
 objectlist.push(testobj);
 
 let fpsCapText = "FPS Capacity: " + cf.FPS;
