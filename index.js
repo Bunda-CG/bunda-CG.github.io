@@ -1,10 +1,12 @@
-import * as elem from './elementControl.js';
+/*import * as elem from './elementControl.js';
+import * as cf from './config.js';
 
 const gp = new elem.Graphic();
 let fps = 30;
 let timeInterval = 1000/fps;
 
 // small box
+gp.setColor(255, 255, 255, 255);
 for (let y = 10; y < 30; y++) {
     for (let x = 10; x < 30; x++) {
         gp.setPixel(x, y);
@@ -12,6 +14,7 @@ for (let y = 10; y < 30; y++) {
 }
 
 // rand noise
+gp.setColor(127, 0, 127, 255);
 function randNoise () {    
     for (let i = 0; i < 99999; i++) {
         gp.setPixel(math.randomInt(0, 800), math.randomInt(0, 600));
@@ -20,7 +23,7 @@ function randNoise () {
 
 function drawRandomPoints () {
     randNoise();
-    gp.draw();
+    gp.update();
 }
 
 class point {
@@ -99,5 +102,62 @@ function drawAll(objectlist) {
     }
 }
 
-setInterval(drawRandomPoints,timeInterval.toFixed());
-elem.print("Kakangku");
+gp.update();
+elem.print("FPS: " + cf.FPS)
+elem.print("frameTime: " + cf.FRAME_TIME + "ms");*/
+
+import * as elem from './elementControl.js';
+import * as cf from './config.js';
+import * as tm from './timer.js';
+
+const gp = new elem.Graphic();
+const timer = new tm.Timer();
+
+timer.start();
+
+function runner() {
+    const start = new Date();
+    gp.refresh();
+
+    // small box
+    gp.setColor(127, 127, 127, 255);
+    for (let y = 50; y < 100; y++) {
+        for (let x = 50; x < 100; x++) {
+            gp.setPixel(x, y);
+        }
+    }
+
+    // rand noise
+    gp.setColor(0, 0, 0, 255);
+    for (let i = 0; i < 99999; i++) {
+        gp.setPixel(math.randomInt(0, 800), math.randomInt(0, 600));
+    }
+
+    gp.update();
+
+    // calculate time to render
+    const end = new Date();
+    const time = end.getTime() - start.getTime();
+    const fps = 1000 / time; //fps=1000/time
+    let timeText = tm.toSecond(timer.howLong()) + " seconds";
+    let fpsPotentialText = "FPS Potential: " + fps.toFixed(0);
+    let frameTimePotentialText = "Frame Time Potential: " + time + "ms";
+    elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
+}
+
+setInterval(runner, cf.FRAME_TIME);
+class point {
+    constructor(x,y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class obj {
+    constructor(pointlist){
+        this.pointlist = pointlist;
+    }
+}
+let fpsCapText = "FPS Capacity: " + cf.FPS;
+let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";
+elem.print(fpsCapText, frameTimeText);
