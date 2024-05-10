@@ -58,21 +58,14 @@ export class polygon extends obj {
 }
 
 export class cubicBezierSpline extends obj {
-    constructor (gp,x1,y1,x2,y2,x3,y3,x4,y4) {
+    constructor (gp,x0,y0,x1,y1,x2,y2,x3,y3) {
         super();
         this.gp = gp;
-
-        this.x1 = x1;
-        this.y1 = y1;
-
-        this.x2 = x2;
-        this.y2 = y2;
-        
-        this.x3 = x3;
-        this.y3 = y3;
-
-        this.x4 = x4;
-        this.y4 = y4;
+        this.pointlist = [];
+        this.pointlist.push(new point(x0,y0));
+        this.pointlist.push(new point(x1,y1));
+        this.pointlist.push(new point(x2,y2));
+        this.pointlist.push(new point(x3,y3));
     }
 
     draw() {
@@ -83,8 +76,8 @@ export class cubicBezierSpline extends obj {
         let py;
         while (u < 1) {
             u1 = 1-u;
-            px = ( this.x1*u1*u1*u1 ) + ( this.x2*3*u*u1*u1 ) + ( this.x3*3*u*u*u1 ) + ( this.x4*u*u*u );
-            py = ( this.y1*u1*u1*u1 ) + ( this.y2*3*u*u1*u1 ) + ( this.y3*3*u*u*u1 ) + ( this.y4*u*u*u );
+            px = ( this.pointlist[0].x*u1*u1*u1 ) + ( this.pointlist[1].x*3*u*u1*u1 ) + ( this.pointlist[2].x*3*u*u*u1 ) + ( this.pointlist[3].x*u*u*u );
+            py = ( this.pointlist[0].y*u1*u1*u1 ) + ( this.pointlist[1].y*3*u*u1*u1 ) + ( this.pointlist[2].y*3*u*u*u1 ) + ( this.pointlist[3].y*u*u*u );
             
             this.gp.setPixel(parseInt(px), parseInt(py));
             u = u+interval;
