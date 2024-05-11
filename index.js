@@ -29,23 +29,13 @@ function runner() {
 
 const objectlist = [];
 
-/*const testspline = new anim.cubicBezierSpline(gp,100,550, 200,550, 150,525, 250,525);
-anim.rotation(testspline,180,200,500);
-anim.scaling(testspline,2,2,200,500);
-objectlist.push(testspline);*/
+const testspline = new anim.cubicBezierSpline(gp,200,200, 220,500, 280,500, 300,200);
+objectlist.push(testspline);
 
-const testpolygon = new anim.incompletepolygon(gp);
-testpolygon.addPoint(310,310);
-testpolygon.addPoint(310,400);
-testpolygon.addPoint(400,400);
-testpolygon.addPoint(400,310);
-testpolygon.addPoint(310,310);
+const testline = new anim.Line(gp,200,0,700,600);
+objectlist.push(testline);
 
-//anim.rotation(testpolygon,20,300,300);
-anim.sheary(testpolygon,2,310);
-
-objectlist.push(testpolygon);
-
+//-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
 let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";
 elem.print(fpsCapText, frameTimeText);

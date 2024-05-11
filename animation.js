@@ -19,27 +19,32 @@ class obj {
     }
 }
 
-export class rectangle extends obj {
-    constructor(gp,x,y,width,height){
+function drawLine(gp,x1,y1,x2,y2){
+    let dx = Math.abs(x2 - x1);
+    let dy = Math.abs(y2 - y1);
+    let sx = x1 < x2 ? 1 : -1;
+    let sy = y1 < y2 ? 1 : -1;
+    let err = dx - dy;
+
+        while (true) {
+            gp.setPixel(x1, y1);
+            if (x1 === x2 && y1 === y2) break;
+            let e2 = 2 * err;
+            if (e2 > -dy) { err -= dy; x1 += sx; }
+            if (e2 < dx) { err += dx; y1 += sy; }
+        }
+}
+
+export class Line extends obj {
+    constructor (gp,x1,y1,x2,y2) {
         super();
         this.gp = gp;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this.pointlist = [];
+        this.pointlist.push(new point(x1,y1));
+        this.pointlist.push(new point(x2,y2));
     }
-
     draw(){
-        let xw = this.x + this.width;
-        let yh = this.y + this.height;
-        for(let i = 0; i <= this.width; i++ ) {
-            this.gp.setPixel(this.x+i, this.y);
-            this.gp.setPixel(this.x+i, yh);
-        }
-        for(let i = 0; i <= this.height; i++ ) {
-            this.gp.setPixel(this.x, this.y+i);
-            this.gp.setPixel(xw,this.y+i);
-        }
+        drawLine(this.gp,this.pointlist[0].x, this.pointlist[0].y, this.pointlist[1].x, this.pointlist[1].y);
     }
 }
 
@@ -98,17 +103,24 @@ export class cubicBezierSpline extends obj {
     }
 
     draw() {
-        let interval = 1/1024;
+        let interval = 1/16;
         let u = 0;
         let u1;
         let px;
         let py;
-        while (u < 1) {
+        let lastpx = this.pointlist[0].x;
+        let lastpy = this.pointlist[0].y;
+        while (u <= 1) {
             u1 = 1-u;
             px = ( this.pointlist[0].x*u1*u1*u1 ) + ( this.pointlist[1].x*3*u*u1*u1 ) + ( this.pointlist[2].x*3*u*u*u1 ) + ( this.pointlist[3].x*u*u*u );
             py = ( this.pointlist[0].y*u1*u1*u1 ) + ( this.pointlist[1].y*3*u*u1*u1 ) + ( this.pointlist[2].y*3*u*u*u1 ) + ( this.pointlist[3].y*u*u*u );
-            
-            this.gp.setPixel(parseInt(px), parseInt(py));
+            px = parseInt(px);
+            py = parseInt(py);
+
+            drawLine(this.gp,lastpx,lastpy,px,py);
+
+            lastpx = px;
+            lastpy = py;
             u = u+interval;
         }
     }
