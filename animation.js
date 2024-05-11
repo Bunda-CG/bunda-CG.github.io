@@ -41,20 +41,51 @@ export class rectangle extends obj {
     }
 }
 
-export class polygon extends obj {
+
+
+export class incompletepolygon extends obj {
     constructor (gp) {
+        super();
         this.gp = gp;
         this.pointlist = [];
     }
 
-    addPoint (x,y) {
-        this.pointlist.push(new point(x,y));
+    addPoint (x, y) {
+        this.pointlist.push(new point(x, y));
     }
 
     draw(){
+        if (this.pointlist.length < 2) {
+            return;
+        }
+
+        for (let i = 0; i < this.pointlist.length-1; i++) {
+            this.drawLine(this.pointlist[i], this.pointlist[(i + 1)%this.pointlist.length]);
+        }
+
+        // Draw the last line connecting the last point to the first point to close the polygon
+        this.drawLine(this.pointlist[this.pointlist.length - 1], this.pointlist[0]);
         
     }
+
+    drawLine(point1, point2) {
+        // Bresenham's line algorithm to draw a line between two points
+        let dx = Math.abs(point2.x - point1.x);
+        let dy = Math.abs(point2.y - point1.y);
+        let sx = point1.x < point2.x ? 1 : -1;
+        let sy = point1.y < point2.y ? 1 : -1;
+        let err = dx - dy;
+
+        while (true) {
+            this.gp.setPixel(point1.x, point1.y);
+            if (point1.x === point2.x && point1.y === point2.y) break;
+            let e2 = 2 * err;
+            if (e2 > -dy) { err -= dy; point1.x += sx; }
+            if (e2 < dx) { err += dx; point1.y += sy; }
+        }
+    }
 }
+
 
 export function drawAll(objectlist) {
     for(let i = 0;i < objectlist.length;i++){

@@ -33,11 +33,22 @@ function runner() {
     let fpsPotentialText = "FPS Potential: " + fps.toFixed(0);
     let frameTimePotentialText = "Frame Time Potential: " + time + "ms";
     elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
+    elem.print(ambatpoly.pointlist);
 }
 
 const objectlist = [];
 const testobj = new anim.rectangle(gp,100,100,300,250);
-objectlist.push(testobj);
+const ambatpoly = new anim.incompletepolygon(gp);
+//objectlist.push(testobj);
+objectlist.push(ambatpoly);
+ambatpoly.addPoint(100,100);
+ambatpoly.addPoint(400,100);
+ambatpoly.addPoint(400,350);
+ambatpoly.addPoint(100,350);
+ambatpoly.addPoint(0,0);
+ambatpoly.addPoint(100,100);
+
+elem.print(ambatpoly.pointlist);
 
 let fpsCapText = "FPS Capacity: " + cf.FPS;
 let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";
