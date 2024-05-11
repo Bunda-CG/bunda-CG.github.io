@@ -21,12 +21,10 @@ export function updatePrint(...text) {
 export class Graphic {
 
     constructor() {
-        // canvas
+        // canvas and context
         this.canvas = document.getElementById(cf.CANVAS_NAME);
         this.width = this.canvas.clientWidth;
         this.height = this.canvas.clientHeight;
-        
-        // context
         this.ctx = this.canvas.getContext("2d");
         
         // image
