@@ -44,7 +44,8 @@ export class Graphic {
     }
 
     setPixel(x, y) {
-        if(x > 0 && x < this.width && y > 0 && y < this.height) {
+        if(x >= 0 && x < this.width && y >= 0 && y < this.height) {
+            // gonna use simple math coordinate, so flip it.
             let flippedY = this.height - y;
             let pixIdx = (this.width * flippedY + x) * 4;
             // Red
@@ -58,7 +59,6 @@ export class Graphic {
 
             // Alpha
             this.image.data[pixIdx + 3] = this.alpha;
-            // gonna use simple math coordinate, so flip it.
         }
             
         
