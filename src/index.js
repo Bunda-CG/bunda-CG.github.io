@@ -1,6 +1,7 @@
-import * as elem from './elementControl.js';
+import * as elem from './helperTools/elementControl.js';
 import * as cf from './config.js';
-import * as tm from './timer.js';
+import * as tm from './helperTools/timer.js';
+import * as anim from './helperTools/animation.js';
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -11,19 +12,8 @@ function runner() {
     const start = new Date();
     gp.refresh();
 
-    // small box
-    gp.setColor(127, 127, 127, 255);
-    for (let y = 50; y < 100; y++) {
-        for (let x = 50; x < 100; x++) {
-            gp.setPixel(x, y);
-        }
-    }
-
-    // rand noise
-    gp.setColor(0, 0, 0, 255);
-    for (let i = 0; i < 99999; i++) {
-        gp.setPixel(math.randomInt(0, 800), math.randomInt(0, 600));
-    }
+    //draw all object
+    anim.drawAll(objectlist);
 
     gp.update();
 
@@ -37,19 +27,17 @@ function runner() {
     elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
 }
 
-setInterval(runner, cf.FRAME_TIME);
-class point {
-    constructor(x,y) {
-        this.x = x;
-        this.y = y;
-    }
-}
+const objectlist = [];
 
-class obj {
-    constructor(pointlist){
-        this.pointlist = pointlist;
-    }
-}
+const testspline = new anim.cubicBezierSpline(gp,200,200, 220,500, 280,500, 300,200);
+objectlist.push(testspline);
+
+const testline = new anim.Line(gp,200,0,700,600);
+objectlist.push(testline);
+
+//-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
 let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";
 elem.print(fpsCapText, frameTimeText);
+
+setInterval(runner, cf.FRAME_TIME);

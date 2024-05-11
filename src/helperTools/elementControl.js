@@ -1,4 +1,4 @@
-import * as cf from './config.js';
+import * as cf from '../config.js';
 
 export function print(...text) {
     const pBox = document.getElementById(cf.CONSOLE_NAME);
@@ -42,20 +42,24 @@ export class Graphic {
     }
 
     setPixel(x, y) {
-        // gonna use simple math coordinate, so flip it.
-        let flippedY = this.height - y;
-        let pixIdx = (this.width * flippedY + x) * 4;
-        // Red
-        this.image.data[pixIdx + 0] = this.red;
+        if(x >= 0 && x < this.width && y >= 0 && y < this.height) {
+            // gonna use simple math coordinate, so flip it.
+            let flippedY = this.height - y;
+            let pixIdx = (this.width * flippedY + x) * 4;
+            // Red
+            this.image.data[pixIdx + 0] = this.red;
 
-        // Green
-        this.image.data[pixIdx + 1] = this.green;
+            // Green
+            this.image.data[pixIdx + 1] = this.green;
 
-        // Blue
-        this.image.data[pixIdx + 2] = this.blue;
+            // Blue
+            this.image.data[pixIdx + 2] = this.blue;
 
-        // Alpha
-        this.image.data[pixIdx + 3] = this.alpha;
+            // Alpha
+            this.image.data[pixIdx + 3] = this.alpha;
+        }
+            
+        
     }
     
     setColor(r, g, b, a) {
