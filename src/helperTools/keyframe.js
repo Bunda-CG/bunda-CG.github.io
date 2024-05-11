@@ -1,6 +1,6 @@
 export class Keyframe {
   constructor(endTime, transformation, params, progressFunction) {
-    this.endTime = endTime.toFixed(0);
+    this.endTime = endTime;
     this.transformation = transformation;
     this.params = params;
     this.progressFunction = progressFunction;
@@ -30,21 +30,24 @@ export class KeyframeCenter {
       keyframePointer > 0 ? keyframes[keyframePointer - 1].endTime : 0;
     let duration = thisFrameEnd - thisFrameStart;
     let progress = (timeNow - thisFrameStart) / duration;
-    return this.progressFunction(progress);
+    return thisFrame.progressFunction(progress);
   }
 
   update() {
-    let currentTime = timer.howLong();
+    // TODO #9
+    let currentTime = this.timer.howLong();
     this.objectList.forEach((obj) => {
       const keyframes = obj.keyframes;
       let framePointer = this.findFramePointer(keyframes, currentTime);
+      if (framePointer < 0) return;
+
       const keyframe = keyframes[framePointer];
       let progress = this.getTransformProgress(
         keyframes,
         framePointer,
         currentTime
       );
-      keyframe.progressFunction(...keyframe.params, progress);
+      keyframe.transformation(obj, ...keyframe.params, progress);
     });
   }
 }

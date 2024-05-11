@@ -31,5 +31,5 @@ export class Timer {
 }
 
 export function toSecond(timeInMS) {
-  return (timeInMS / 1000).toFixed(0);
+  return Math.round(timeInMS / 1000);
 }
