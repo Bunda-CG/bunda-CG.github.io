@@ -1,4 +1,5 @@
 import * as elem from './elementControl.js';
+import * as cf from '../config.js'
 
 class point {
     constructor(x,y) {
@@ -103,7 +104,7 @@ export class cubicBezierSpline extends obj {
     }
 
     draw() {
-        let interval = 1/16;
+        let interval = 1/cf.RENDER_FREQUENCY;
         let u = 0;
         let u1;
         let px;

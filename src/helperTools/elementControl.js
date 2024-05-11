@@ -1,4 +1,4 @@
-import * as cf from './config.js';
+import * as cf from '../config.js';
 
 export function print(...text) {
     const pBox = document.getElementById(cf.CONSOLE_NAME);

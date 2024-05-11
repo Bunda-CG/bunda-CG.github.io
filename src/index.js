@@ -1,7 +1,7 @@
-import * as elem from './elementControl.js';
+import * as elem from './helperTools/elementControl.js';
 import * as cf from './config.js';
-import * as tm from './timer.js';
-import * as anim from './animation.js';
+import * as tm from './helperTools/timer.js';
+import * as anim from './helperTools/animation.js';
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
