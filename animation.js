@@ -86,6 +86,92 @@ export class incompletepolygon extends obj {
     }
 }
 
+export class cubicBezierSpline extends obj {
+    constructor (gp,x0,y0,x1,y1,x2,y2,x3,y3) {
+        super();
+        this.gp = gp;
+        this.pointlist = [];
+        this.pointlist.push(new point(x0,y0));
+        this.pointlist.push(new point(x1,y1));
+        this.pointlist.push(new point(x2,y2));
+        this.pointlist.push(new point(x3,y3));
+    }
+
+    draw() {
+        let interval = 1/1024;
+        let u = 0;
+        let u1;
+        let px;
+        let py;
+        while (u < 1) {
+            u1 = 1-u;
+            px = ( this.pointlist[0].x*u1*u1*u1 ) + ( this.pointlist[1].x*3*u*u1*u1 ) + ( this.pointlist[2].x*3*u*u*u1 ) + ( this.pointlist[3].x*u*u*u );
+            py = ( this.pointlist[0].y*u1*u1*u1 ) + ( this.pointlist[1].y*3*u*u1*u1 ) + ( this.pointlist[2].y*3*u*u*u1 ) + ( this.pointlist[3].y*u*u*u );
+            
+            this.gp.setPixel(parseInt(px), parseInt(py));
+            u = u+interval;
+        }
+    }
+}
+
+export class newsmoothBezierSpline extends obj {
+    constructor(gp, x3, y3, prevBezierSpline) {
+        super();
+        this.gp = gp;
+        this.pointlist = [];
+        
+        // Add the last point of the previous BezierSpline as the starting point of the new spline
+        this.pointlist.push(new point(prevBezierSpline.pointlist[3].x, prevBezierSpline.pointlist[3].y));
+
+        /* อันแรกแต่ก็มั่ว
+        const x0 = prevBezierSpline.pointlist[3].x;
+        const y0 = prevBezierSpline.pointlist[3].y;
+        const x1 = (2 / 3) * x0 + (1 / 3) * x3;
+        const y1 = (2 / 3) * y0 + (1 / 3) * y3;
+        const x2 = (1 / 3) * x0 + (2 / 3) * x3;
+        const y2 = (1 / 3) * y0 + (2 / 3) * y3;
+        */
+        
+        // Calculate the new control points 1 and 2 using the provided formulas
+        const x0 = prevBezierSpline.pointlist[3].x;
+        const y0 = prevBezierSpline.pointlist[3].y;
+        
+        const x2_old = prevBezierSpline.pointlist[2].x;
+        const y2_old = prevBezierSpline.pointlist[2].y;
+        
+        const x1_new = ((prevBezierSpline.pointlist.length - 1 ) * (x0 - x2_old) + x0)/ (this.pointlist.length - 1);
+        const y1_new = ((prevBezierSpline.pointlist.length - 1 ) * (y0 - y2_old) + y0)/ (this.pointlist.length - 1);;
+        
+        const x2_new = ((((prevBezierSpline.pointlist.length - 1) * (prevBezierSpline.pointlist.length - 2)) * (x1_new - 2 * x2_old + x0)) / ((this.pointlist.length - 1) * (this.pointlist.length - 2))) + (2 * x0 - x2_old);
+        const y2_new = ((((prevBezierSpline.pointlist.length - 1) * (prevBezierSpline.pointlist.length - 2)) * (y1_new - 2 * y2_old + y0)) / ((this.pointlist.length - 1) * (this.pointlist.length - 2))) + (2 * y0 - y2_old);
+        
+        // Add the new control points
+        this.pointlist.push(new point(x1_new, y1_new));
+        this.pointlist.push(new point(x2_new, y2_new));
+        
+        // Add the end point of the new spline
+        this.pointlist.push(new point(x3, y3));
+
+    }
+
+    draw() {
+        let interval = 1 / 1024;
+        let u = 0;
+        let u1;
+        let px;
+        let py;
+
+        while (u < 1) {
+            u1 = 1 - u;
+            px = (this.pointlist[0].x * u1 * u1 * u1) + (this.pointlist[1].x * 3 * u * u1 * u1) + (this.pointlist[2].x * 3 * u * u * u1) + (this.pointlist[3].x * u * u * u);
+            py = (this.pointlist[0].y * u1 * u1 * u1) + (this.pointlist[1].y * 3 * u * u1 * u1) + (this.pointlist[2].y * 3 * u * u * u1) + (this.pointlist[3].y * u * u * u);
+
+            this.gp.setPixel(parseInt(px), parseInt(py));
+            u = u + interval;
+        }
+    }
+}
+
 
 export function drawAll(objectlist) {
     for(let i = 0;i < objectlist.length;i++){

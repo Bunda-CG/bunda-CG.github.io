@@ -33,47 +33,24 @@ function runner() {
     let fpsPotentialText = "FPS Potential: " + fps.toFixed(0);
     let frameTimePotentialText = "Frame Time Potential: " + time + "ms";
     elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
-    elem.print(ambatpoly.pointlist);
 }
 
 const objectlist = [];
-const testobj = new anim.rectangle(gp,100,100,300,250);
-const ambatpoly = new anim.incompletepolygon(gp);
-//objectlist.push(testobj);
-objectlist.push(ambatpoly);
-ambatpoly.addPoint(100,100);
-ambatpoly.addPoint(400,100);
-ambatpoly.addPoint(400,350);
-ambatpoly.addPoint(100,350);
-ambatpoly.addPoint(0,0);
-ambatpoly.addPoint(100,100);
 
-elem.print(ambatpoly.pointlist);
+const testspline = new anim.cubicBezierSpline(gp,100,400, 200,400, 150,420, 250,420);
+
+objectlist.push(testspline);
+const testsmooth = new anim.newsmoothBezierSpline(gp,550,550,testspline);
+
+objectlist.push(testsmooth);
 
 let fpsCapText = "FPS Capacity: " + cf.FPS;
 let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";
 elem.print(fpsCapText, frameTimeText);
 
 setInterval(runner, cf.FRAME_TIME);
-
-
-
-
-
-/*import * as elem from './elementControl.js';
-import * as cf from './config.js';
-
-const gp = new elem.Graphic();
-let fps = 30;
-let timeInterval = 1000/fps;
-
-// small box
-gp.setColor(255, 255, 255, 255);
-for (let y = 10; y < 30; y++) {
-    for (let x = 10; x < 30; x++) {
-        gp.setPixel(x, y);
+/*
     }
-}
 
 // rand noise
 gp.setColor(127, 0, 127, 255);
@@ -88,6 +65,7 @@ function drawRandomPoints () {
     gp.update();
 }
 
+setInterval(runner, cf.FRAME_TIME);
 class point {
     constructor(x,y) {
         this.x = x;
