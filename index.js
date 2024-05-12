@@ -1,7 +1,7 @@
-import * as elem from './elementControl.js';
-import * as cf from './config.js';
-import * as tm from './timer.js';
-import * as anim from './animation.js';
+import * as elem from "./elementControl.js";
+import * as cf from "./config.js";
+import * as tm from "./timer.js";
+import * as anim from "./animation.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -9,38 +9,51 @@ const timer = new tm.Timer();
 timer.start();
 
 function runner() {
-    const start = new Date();
-    gp.refresh();
+  const start = new Date();
+  gp.refresh();
 
-    // small box
-    gp.setColor(127, 127, 127, 255);
-    for (let y = 50; y < 100; y++) {
-        for (let x = 50; x < 100; x++) {
-            gp.setPixel(x, y);
-        }
-    }
+  // small box
+  //   gp.setColor(127, 127, 127, 255);
+  //   for (let y = 50; y < 100; y++) {
+  //     for (let x = 50; x < 100; x++) {
+  //       gp.setPixel(x, y);
+  //     }
+  //   }
 
-    //draw all object
-    anim.drawAll(objectlist);
+  //draw all object
+  anim.drawAll(objectlist);
 
-    gp.update();
+  gp.update();
 
-    // calculate time to render
-    const end = new Date();
-    const time = end.getTime() - start.getTime();
-    const fps = 1000 / time; //fps=1000/time
-    let timeText = tm.toSecond(timer.howLong()) + " seconds";
-    let fpsPotentialText = "FPS Potential: " + fps.toFixed(0);
-    let frameTimePotentialText = "Frame Time Potential: " + time + "ms";
-    elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
+  // calculate time to render
+  const end = new Date();
+  const time = end.getTime() - start.getTime();
+  const fps = 1000 / time; //fps=1000/time
+  let timeText = tm.toSecond(timer.howLong()) + " seconds";
+  let fpsPotentialText = "FPS Potential: " + fps.toFixed(0);
+  let frameTimePotentialText = "Frame Time Potential: " + time + "ms";
+  elem.updatePrint(timeText, fpsPotentialText, frameTimePotentialText);
 }
 
 const objectlist = [];
 
-const testspline = new anim.cubicBezierSpline(gp,100,400, 200,400, 150,420, 250,420);
+const testspline = new anim.cubicBezierSpline(
+  gp,
+  100,
+  400,
+  200,
+  400,
+  150,
+  420,
+  250,
+  420
+);
 
 objectlist.push(testspline);
-const testsmooth = new anim.newsmoothBezierSpline(gp,550,550,testspline);
+const testsmooth = new anim.splineChain(gp, 0, 0, 50, 50, 100, 10, 100, 100);
+// testsmooth.addPoint(200, 200);
+testsmooth.addPoint(500, 500);
+testsmooth.addPoint(520, 460);
 
 objectlist.push(testsmooth);
 
