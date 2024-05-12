@@ -1,5 +1,6 @@
 #canvas {
     background-color: #ffffff;
+    border-style: solid;
 }
 
 #updateConsole, #console {
