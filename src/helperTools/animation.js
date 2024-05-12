@@ -168,6 +168,72 @@ export class cubicBezierSpline extends obj {
   }
 }
 
+export class splineChain extends cubicBezierSpline {
+  constructor(gp, x0, y0, x1, y1, x2, y2, x3, y3) {
+    super(gp, x0, y0, x1, y1, x2, y2, x3, y3);
+    this.sectionNum = 1;
+    this.sectionPointer = 0;
+  }
+
+  findP1(x3, y3, x2, y2) {
+    let xPrime = 2 * x3 - x2;
+    let yPrime = 2 * y3 - y2;
+    return new point(xPrime, yPrime);
+  }
+
+  findP2(x3, y3, x2, y2, x1, y1) {
+    let xPrime = 3 * (x3 - x2) + x1;
+    let yPrime = 3 * (y3 - y2) + y1;
+    return new point(xPrime, yPrime);
+  }
+
+  addPoint(x, y) {
+    const p3 = this.pointlist[this.pointlist.length - 1];
+    const p2 = this.pointlist[this.pointlist.length - 2];
+    const p1 = this.pointlist[this.pointlist.length - 3];
+    const p0new = new point(p3.x, p3.y);
+    const p1new = this.findP1(p3.x, p3.y, p2.x, p2.y);
+    const p2new = this.findP2(p3.x, p3.y, p2.x, p2.y, p1.x, p1.y);
+
+    this.pointlist.push(p0new); // p0
+    this.pointlist.push(p1new); // p1
+    this.pointlist.push(p2new); // p2
+    this.pointlist.push(new point(x, y)); // p3
+
+    this.sectionNum++;
+  }
+
+  draw() {
+    let interval = 1 / 1024;
+    let u = 0;
+    let u1;
+    let px;
+    let py;
+    let sectionOffset = this.sectionPointer * 4;
+    console.log(this.pointlist);
+
+    while (u < 1) {
+      u1 = 1 - u;
+      px =
+        this.pointlist[sectionOffset + 0].x * u1 * u1 * u1 +
+        this.pointlist[sectionOffset + 1].x * 3 * u * u1 * u1 +
+        this.pointlist[sectionOffset + 2].x * 3 * u * u * u1 +
+        this.pointlist[sectionOffset + 3].x * u * u * u;
+      py =
+        this.pointlist[sectionOffset + 0].y * u1 * u1 * u1 +
+        this.pointlist[sectionOffset + 1].y * 3 * u * u1 * u1 +
+        this.pointlist[sectionOffset + 2].y * 3 * u * u * u1 +
+        this.pointlist[sectionOffset + 3].y * u * u * u;
+
+      this.gp.setPixel(parseInt(px), parseInt(py));
+      u = u + interval;
+    }
+    this.sectionPointer++;
+    if (this.sectionPointer < this.sectionNum) this.draw();
+    this.sectionPointer = 0;
+  }
+}
+
 export function drawAll(objectlist) {
   for (let i = 0; i < objectlist.length; i++) {
     objectlist[i].draw();
