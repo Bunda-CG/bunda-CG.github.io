@@ -43,7 +43,14 @@ const testspline = new anim.cubicBezierSpline(
   300,
   200
 );
-testspline.addKeyframe(5000, anim.translation, fn.WEAK_SIGMOID, 4, 4);
+testspline.addKeyframe(1000, anim.translation, fn.BELL, -200, -200);
+testspline.addKeyframe(2000, anim.translation, fn.CONSTANT, 200, 200);
+testspline.addKeyframe(3000, anim.rotation, fn.BELL, -90, 300, 300);
+testspline.addKeyframe(4000, anim.scaling, fn.BELL, 0.5, 0.5, 200, 300);
+testspline.addKeyframe(5000, anim.scaling, fn.CONSTANT, 0.5, 0.5, 0, 0);
+testspline.addKeyframe(6000, anim.shearx, fn.CONSTANT, 2, 200);
+testspline.addKeyframe(7000, anim.translation, fn.BELL, 200, 200);
+testspline.addKeyframe(8000, anim.sheary, fn.BELL, -2, 200);
 objectlist.push(testspline);
 
 const testline = new anim.Line(gp, 200, 0, 700, 600);
@@ -51,7 +58,7 @@ const testline = new anim.Line(gp, 200, 0, 700, 600);
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
-let frameTimeText = "Frame Time: " + cf.FRAME_TIME + "ms";
+let frameTimeText = "Frame Time: " + fn.ROUND(cf.FRAME_TIME, 2) + "ms";
 elem.print(fpsCapText, frameTimeText);
 
 setInterval(runner, cf.FRAME_TIME);

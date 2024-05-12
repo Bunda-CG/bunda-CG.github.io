@@ -1,3 +1,4 @@
+import * as fn from "../function.js";
 export class Timer {
   constructor() {
     this.comulativeTime = 0;
@@ -31,5 +32,5 @@ export class Timer {
 }
 
 export function toSecond(timeInMS) {
-  return Math.round(timeInMS / 1000);
+  return fn.ROUND(timeInMS / 1000, 2);
 }

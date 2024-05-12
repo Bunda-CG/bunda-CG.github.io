@@ -1,4 +1,3 @@
-import * as elem from "./elementControl.js";
 import * as cf from "../config.js";
 import * as kf from "./keyframe.js";
 
@@ -138,7 +137,7 @@ export class cubicBezierSpline extends obj {
   }
 
   draw() {
-    let interval = 1 / cf.RENDER_FREQUENCY;
+    let interval = 1 / cf.RENDER_PRECISION;
     let u = 0;
     let u1;
     let px;
@@ -185,7 +184,7 @@ export function translation(obj, tx, ty, percent) {
 }
 
 export function rotation(obj, degree, centerx, centery, percent) {
-  degree = Math.round(degree * percent);
+  degree = degree * percent;
   let rad = (degree * Math.PI) / 180;
 
   let cos = Math.cos(rad);
@@ -211,8 +210,8 @@ export function rotation(obj, degree, centerx, centery, percent) {
 }
 
 export function scaling(obj, sx, sy, fixedpointx, fixedpointy, percent) {
-  sx = Math.round(sx * percent);
-  sy = Math.round(sy * percent);
+  sx = 1 + (sx - 1) * percent;
+  sy = 1 + (sy - 1) * percent;
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
       [obj.pointlist[i].x],
@@ -230,10 +229,10 @@ export function scaling(obj, sx, sy, fixedpointx, fixedpointy, percent) {
     obj.pointlist[i].x = parseInt(res.subset(math.index(0, 0)));
     obj.pointlist[i].y = parseInt(res.subset(math.index(1, 0)));
   }
-}
+} //
 
 export function shearx(obj, sh, yref, percent) {
-  sh = Math.round(sh * percent);
+  sh = sh * percent;
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
       [obj.pointlist[i].x],
@@ -254,7 +253,7 @@ export function shearx(obj, sh, yref, percent) {
 }
 
 export function sheary(obj, sh, xref, percent) {
-  sh = Math.round(sh * percent);
+  sh = sh * percent;
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
       [obj.pointlist[i].x],

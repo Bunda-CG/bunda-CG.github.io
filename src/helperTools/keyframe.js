@@ -1,9 +1,11 @@
+import * as cf from "../config.js";
+import * as fn from "../function.js";
 export class Keyframe {
-  constructor(endTime, transformation, params, progressFunction) {
+  constructor(endTime, transformation, params, speed) {
     this.endTime = endTime;
     this.transformation = transformation;
     this.params = params;
-    this.progressFunction = progressFunction;
+    this.speed = speed;
   }
 }
 
@@ -23,18 +25,19 @@ export class KeyframeCenter {
     return -1;
   }
 
-  getTransformProgress(keyframes, keyframePointer, timeNow) {
+  getTransformSpeed(keyframes, keyframePointer, timeNow) {
     const thisFrame = keyframes[keyframePointer];
     let thisFrameEnd = thisFrame.endTime;
     let thisFrameStart =
       keyframePointer > 0 ? keyframes[keyframePointer - 1].endTime : 0;
     let duration = thisFrameEnd - thisFrameStart;
     let progress = (timeNow - thisFrameStart) / duration;
-    return thisFrame.progressFunction(progress);
+    let speed = thisFrame.speed(progress);
+    speed = (speed * cf.FRAME_TIME) / duration;
+    return speed;
   }
 
   update() {
-    // TODO #9
     let currentTime = this.timer.howLong();
     this.objectList.forEach((obj) => {
       const keyframes = obj.keyframes;
@@ -42,12 +45,8 @@ export class KeyframeCenter {
       if (framePointer < 0) return;
 
       const keyframe = keyframes[framePointer];
-      let progress = this.getTransformProgress(
-        keyframes,
-        framePointer,
-        currentTime
-      );
-      keyframe.transformation(obj, ...keyframe.params, progress);
+      let speed = this.getTransformSpeed(keyframes, framePointer, currentTime);
+      keyframe.transformation(obj, ...keyframe.params, speed);
     });
   }
 }
