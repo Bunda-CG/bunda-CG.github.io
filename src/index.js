@@ -19,7 +19,7 @@ function runner() {
   kfc.update();
 
   //draw all object
-  anim.drawAll(objectlist,gp);
+  anim.drawAll(objectlist, gp);
 
   gp.update();
 
@@ -34,29 +34,26 @@ function runner() {
 }
 
 // define zone
-
+const toiletScene = new objects.ToiletScene();
 
 // push zone
-objectlist.push(objects.toiletSeatTop);
-objectlist.push(objects.toiletSeatPing);
-objectlist.push(objects.toiletSeatBottomLeft);
-objectlist.push(objects.toiletSeatBottomRight);
-objectlist.push(objects.toiletFloor);
-objectlist.push(objects.pepeToiletTop);
-objectlist.push(objects.pepeToiletBottom);
-objectlist.push(objects.pepeLeftEyeTop);
-objectlist.push(objects.pepeLeftEyeBottom);
-objectlist.push(objects.pepeRightEyeTop);
-objectlist.push(objects.pepeRightEyeBottom);
-objectlist.push(objects.pepeHandTop);
-objectlist.push(objects.pepeHandBottom);
+objectlist.push(toiletScene.toiletSeatTop);
+objectlist.push(toiletScene.toiletSeatPing);
+objectlist.push(toiletScene.toiletSeatBottomLeft);
+objectlist.push(toiletScene.toiletSeatBottomRight);
+objectlist.push(toiletScene.toiletFloor);
+objectlist.push(toiletScene.pepeToiletTop);
+objectlist.push(toiletScene.pepeToiletBottom);
+objectlist.push(toiletScene.pepeLeftEyeTop);
+objectlist.push(toiletScene.pepeLeftEyeBottom);
+objectlist.push(toiletScene.pepeRightEyeTop);
+objectlist.push(toiletScene.pepeRightEyeBottom);
+objectlist.push(toiletScene.pepeHandTop);
+objectlist.push(toiletScene.pepeHandBottom);
 //objectlist.push(objects.);
-
 
 // animate zone
 //testspline.addKeyframe(1000, anim.translation, fn.BELL, -200, -200);
-
-
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
