@@ -4,6 +4,7 @@ import * as fn from "./function.js";
 import * as tm from "./helperTools/timer.js";
 import * as anim from "./helperTools/animation.js";
 import * as kf from "./helperTools/keyframe.js";
+import * as objects from "./objects.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -18,7 +19,7 @@ function runner() {
   kfc.update();
 
   //draw all object
-  anim.drawAll(objectlist);
+  anim.drawAll(objectlist,gp);
 
   gp.update();
 
@@ -33,45 +34,29 @@ function runner() {
 }
 
 // define zone
-const testspline = new anim.cubicBezierSpline(
-  gp,
-  200,
-  200,
-  220,
-  500,
-  280,
-  500,
-  300,
-  200
-);
-const testSplineChain = new anim.splineChain(
-  gp,
-  700,
-  500,
-  650,
-  400,
-  500,
-  400,
-  400,
-  400
-);
-testSplineChain.addPoint(300, 450);
+
 
 // push zone
-objectlist.push(testspline);
-objectlist.push(testSplineChain);
+objectlist.push(objects.toiletSeatTop);
+objectlist.push(objects.toiletSeatPing);
+objectlist.push(objects.toiletSeatBottomLeft);
+objectlist.push(objects.toiletSeatBottomRight);
+objectlist.push(objects.toiletFloor);
+objectlist.push(objects.pepeToiletTop);
+objectlist.push(objects.pepeToiletBottom);
+objectlist.push(objects.pepeLeftEyeTop);
+objectlist.push(objects.pepeLeftEyeBottom);
+objectlist.push(objects.pepeRightEyeTop);
+objectlist.push(objects.pepeRightEyeBottom);
+objectlist.push(objects.pepeHandTop);
+objectlist.push(objects.pepeHandBottom);
+//objectlist.push(objects.);
+
 
 // animate zone
-testspline.addKeyframe(1000, anim.translation, fn.BELL, -200, -200);
-testspline.addKeyframe(2000, anim.translation, fn.CONSTANT, 200, 200);
-testspline.addKeyframe(3000, anim.rotation, fn.BELL, -90, 300, 300);
-testspline.addKeyframe(4000, anim.scaling, fn.BELL, 0.5, 0.5, 200, 300);
-testspline.addKeyframe(5000, anim.scaling, fn.CONSTANT, 0.5, 0.5, 0, 0);
-testspline.addKeyframe(6000, anim.shearx, fn.CONSTANT, 2, 200);
-testspline.addKeyframe(7000, anim.translation, fn.BELL, 200, 200);
-testspline.addKeyframe(8000, anim.sheary, fn.BELL, -2, 200);
+//testspline.addKeyframe(1000, anim.translation, fn.BELL, -200, -200);
 
-testSplineChain.addKeyframe(1000, anim.rotation, fn.CONSTANT, 180, 400, 300);
+
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;

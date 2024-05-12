@@ -9,20 +9,17 @@ class point {
 }
 
 class obj {
-  constructor(gp) {
+  constructor() {
     this.pointlist = [];
     this.keyframes = [];
-    this.gp = gp;
     this.red = cf.RED;
     this.green = cf.GREEN;
     this.blue = cf.BLUE;
     this.alpha = cf.ALPHA;
   }
 
-  draw() {
-    for (let i = 0; i < this.pointlist.length; i++) {
-      this.gp.setPixel(this.pointlist[i].x, this.pointlist[i].y);
-    }
+  draw(gp) {
+    
   }
 
   setColor(r, g, b, a) {
@@ -66,14 +63,14 @@ function drawLine(gp, x1, y1, x2, y2) {
 }
 
 export class Line extends obj {
-  constructor(gp, x1, y1, x2, y2) {
-    super(gp);
+  constructor( x1, y1, x2, y2) {
+    super();
     this.pointlist.push(new point(x1, y1));
     this.pointlist.push(new point(x2, y2));
   }
-  draw() {
+  draw(gp) {
     drawLine(
-      this.gp,
+      gp,
       this.pointlist[0].x,
       this.pointlist[0].y,
       this.pointlist[1].x,
@@ -87,23 +84,23 @@ export class incompletepolygon extends obj {
     this.pointlist.push(new point(x, y));
   }
 
-  draw() {
+  draw(gp) {
     if (this.pointlist.length < 2) {
       return;
     }
 
     for (let i = 0; i < this.pointlist.length - 1; i++) {
-      this.drawLine(
+      this.drawLine(gp,
         this.pointlist[i],
         this.pointlist[(i + 1) % this.pointlist.length]
       );
     }
 
     // Draw the last line connecting the last point to the first point to close the polygon
-    this.drawLine(this.pointlist[this.pointlist.length - 1], this.pointlist[0]);
+    this.drawLine(gp,this.pointlist[this.pointlist.length - 1], this.pointlist[0]);
   }
 
-  drawLine(point1, point2) {
+  drawLine(gp,point1, point2) {
     // Bresenham's line algorithm to draw a line between two points
     let dx = Math.abs(point2.x - point1.x);
     let dy = Math.abs(point2.y - point1.y);
@@ -112,7 +109,7 @@ export class incompletepolygon extends obj {
     let err = dx - dy;
 
     while (true) {
-      this.gp.setPixel(point1.x, point1.y);
+      gp.setPixel(point1.x, point1.y);
       if (point1.x === point2.x && point1.y === point2.y) break;
       let e2 = 2 * err;
       if (e2 > -dy) {
@@ -128,15 +125,15 @@ export class incompletepolygon extends obj {
 }
 
 export class cubicBezierSpline extends obj {
-  constructor(gp, x0, y0, x1, y1, x2, y2, x3, y3) {
-    super(gp);
+  constructor( x0, y0, x1, y1, x2, y2, x3, y3) {
+    super();
     this.pointlist.push(new point(x0, y0));
     this.pointlist.push(new point(x1, y1));
     this.pointlist.push(new point(x2, y2));
     this.pointlist.push(new point(x3, y3));
   }
 
-  draw() {
+  draw(gp) {
     let interval = 1 / cf.RENDER_PRECISION;
     let u = 0;
     let u1;
@@ -159,7 +156,7 @@ export class cubicBezierSpline extends obj {
       px = parseInt(px);
       py = parseInt(py);
 
-      drawLine(this.gp, lastpx, lastpy, px, py);
+      drawLine(gp, lastpx, lastpy, px, py);
 
       lastpx = px;
       lastpy = py;
@@ -169,8 +166,8 @@ export class cubicBezierSpline extends obj {
 }
 
 export class splineChain extends cubicBezierSpline {
-  constructor(gp, x0, y0, x1, y1, x2, y2, x3, y3) {
-    super(gp, x0, y0, x1, y1, x2, y2, x3, y3);
+  constructor(x0, y0, x1, y1, x2, y2, x3, y3) {
+    super(x0, y0, x1, y1, x2, y2, x3, y3);
     this.sectionNum = 1;
     this.sectionPointer = 0;
   }
@@ -203,7 +200,7 @@ export class splineChain extends cubicBezierSpline {
     this.sectionNum++;
   }
 
-  draw() {
+  draw(gp) {
     let interval = 1 / 1024;
     let u = 0;
     let u1;
@@ -225,7 +222,7 @@ export class splineChain extends cubicBezierSpline {
         this.pointlist[sectionOffset + 2].y * 3 * u * u * u1 +
         this.pointlist[sectionOffset + 3].y * u * u * u;
 
-      this.gp.setPixel(parseInt(px), parseInt(py));
+      gp.setPixel(parseInt(px), parseInt(py));
       u = u + interval;
     }
     this.sectionPointer++;
@@ -234,9 +231,9 @@ export class splineChain extends cubicBezierSpline {
   }
 }
 
-export function drawAll(objectlist) {
+export function drawAll(objectlist,gp) {
   for (let i = 0; i < objectlist.length; i++) {
-    objectlist[i].draw();
+    objectlist[i].draw(gp);
   }
 }
 
@@ -337,4 +334,8 @@ export function sheary(obj, sh, xref, percent) {
     obj.pointlist[i].x = parseInt(res.subset(math.index(0, 0)));
     obj.pointlist[i].y = parseInt(res.subset(math.index(1, 0)));
   }
+}
+
+export function stay(obj,percent){
+
 }
