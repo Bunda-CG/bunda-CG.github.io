@@ -1,0 +1,7 @@
+#canvas {
+    background-color: #ffffff;
+}
+
+#updateConsole, #console {
+    font-family: monospace;
+}
