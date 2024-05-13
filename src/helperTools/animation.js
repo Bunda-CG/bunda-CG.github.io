@@ -8,7 +8,7 @@ class point {
   }
 }
 
-class obj {
+export class obj {
   constructor() {
     this.pointlist = [];
     this.refPoints = [];
@@ -271,6 +271,17 @@ export function drawAll(objectlist, gp) {
   for (let i = 0; i < objectlist.length; i++) {
     objectlist[i].draw(gp);
   }
+}
+
+export function drawScenes(scenes, gp) {
+  scenes.forEach((scene) => {
+    for (const property in scene) {
+      const object = scene[property];
+      if (!(object instanceof obj)) continue;
+      if (!object.isShow) continue;
+      object.draw(gp);
+    }
+  });
 }
 
 export function translation(obj, tx, ty, percent) {
