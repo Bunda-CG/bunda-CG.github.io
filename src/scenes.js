@@ -32,6 +32,15 @@ export class ToiletScene extends Scene {
     this.toiletSeatPing.addPoint(655, 480);
     this.toiletSeatPing.addPoint(655, 291);
 
+    //                                p0    p1     p2     p3
+    // const condMtx = math.matrix([[197], [290], [449], [567]]);
+    // const condMty = math.matrix([[118], [293], [102], [431]]);
+    const p0 = [487, 438];
+    const p1 = [290, 293];
+    const p2 = [449, 102];
+    const p3 = [567, 431];
+    this.path = new anim.cubicBezierSpline(...p0, ...p1, ...p2, ...p3);
+
     this.toiletSeatBottomLeft = new anim.cubicBezierSpline(
       541,
       190,
@@ -179,6 +188,17 @@ export class ToiletScene extends Scene {
       400,
       300
     );
+    const condMtx = math.matrix([[487], [290], [449], [567]]);
+    const condMty = math.matrix([[438], [293], [102], [431]]);
+    this.addKeyframe(
+      this.pepeHandBottom,
+      6000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      condMtx,
+      condMty
+    );
+
     this.addKeyframe(
       this.pepeHandTop,
       1000,
@@ -196,5 +216,17 @@ export class ToiletScene extends Scene {
       400,
       300
     );
+    this.addKeyframe(
+      this.pepeHandTop,
+      6000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      condMtx,
+      condMty
+    );
+
+    this.addKeyframe(this.path, 2500, anim.hide, fn.LINEAR, 487, -600);
+    // this.addKeyframe(this.path, 2500, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.path, 3000, anim.translation, fn.SIGMOID, 0, 1037);
   }
 }
