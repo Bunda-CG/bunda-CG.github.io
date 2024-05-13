@@ -2,7 +2,7 @@ import * as anim from "./helperTools/animation.js";
 import * as fn from "./function.js";
 import { Scene } from "./scenes.js";
 
-export class FecusScene extends Scene{
+export class TittaScene extends Scene{
   static START_AT = 0;
   static END_AT = 3000000;
   constructor() {
