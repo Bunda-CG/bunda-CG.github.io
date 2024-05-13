@@ -2,8 +2,6 @@ import * as anim from "./helperTools/animation.js";
 import * as fn from "./function.js";
 
 export class Scene {
-  static START_AT = 0;
-  static END_AT = -1;
   preventStart(startAt, object) {
     if (object.keyframes.length < 1 && startAt > 0) {
       object.addKeyframe(startAt, anim.stay, fn.LINEAR);
@@ -17,6 +15,8 @@ export class ToiletScene extends Scene {
   static END_AT = 30000;
   constructor() {
     super();
+    this.startAt = ToiletScene.START_AT;
+    this.endAt = ToiletScene.END_AT;
     //toilet
     this.toiletSeatTop = new anim.incompletepolygon();
     this.toiletSeatTop.addPoint(484, 249);

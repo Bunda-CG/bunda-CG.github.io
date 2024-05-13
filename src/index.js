@@ -8,8 +8,8 @@ import * as objects from "./objects.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
-const objectlist = [];
-const kfc = new kf.KeyframeCenter(objectlist, timer);
+const scenes = [];
+const kfc = new kf.KeyframeCenter(scenes, timer);
 
 timer.start();
 
@@ -19,7 +19,7 @@ function runner() {
   kfc.update();
 
   //draw all object
-  anim.drawAll(objectlist, gp);
+  anim.drawScenes(scenes, gp);
 
   gp.update();
 
@@ -37,19 +37,7 @@ function runner() {
 const toiletScene = new objects.ToiletScene();
 
 // push zone
-objectlist.push(toiletScene.toiletSeatTop);
-objectlist.push(toiletScene.toiletSeatPing);
-objectlist.push(toiletScene.toiletSeatBottomLeft);
-objectlist.push(toiletScene.toiletSeatBottomRight);
-objectlist.push(toiletScene.toiletFloor);
-objectlist.push(toiletScene.pepeToiletTop);
-objectlist.push(toiletScene.pepeToiletBottom);
-objectlist.push(toiletScene.pepeLeftEyeTop);
-objectlist.push(toiletScene.pepeLeftEyeBottom);
-objectlist.push(toiletScene.pepeRightEyeTop);
-objectlist.push(toiletScene.pepeRightEyeBottom);
-objectlist.push(toiletScene.pepeHandTop);
-objectlist.push(toiletScene.pepeHandBottom);
+scenes.push(toiletScene);
 //objectlist.push(objects.);
 
 // animate zone
