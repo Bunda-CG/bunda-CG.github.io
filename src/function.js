@@ -18,7 +18,7 @@ export const BEZIER_MATRIX_CUBIC = math.matrix([
   [-3, 3, 0, 0],
   [1, 0, 0, 0],
 ]);
-export const BEZIER_CONDITION = math.matrix([[0], [3.84], [0], [0]]);
+export const BEZIER_CONDITION = math.matrix([[0], [3.855], [0], [0]]);
 
 export const SPLINE_COEF = math.multiply(BEZIER_MATRIX_CUBIC, BEZIER_CONDITION);
 

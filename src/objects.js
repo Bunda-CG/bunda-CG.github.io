@@ -139,11 +139,11 @@ export class ToiletScene {
       0
     );
     this.pepeHandTop.addKeyframe(
-      ToiletScene.START_AT + 4000,
+      ToiletScene.START_AT + 5000,
       anim.translation,
       fn.BELL,
-      0,
-      -100
+      795,
+      0
     );
   }
 }
