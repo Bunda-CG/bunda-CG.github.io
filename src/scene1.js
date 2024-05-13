@@ -257,6 +257,17 @@ export class TakingScene extends Scene {
       0,
       491
     );
+    this.addKeyframe(this.pepeLeftEyeBottom, 8000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      8500,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      0.5,
+      558,
+      390
+    );
 
     this.addKeyframe(this.pepeLeftEyeTop, 100, anim.hide, fn.LINEAR, 545, -103);
     this.addKeyframe(
@@ -266,6 +277,17 @@ export class TakingScene extends Scene {
       fn.SIGMOID,
       0,
       491
+    );
+    this.addKeyframe(this.pepeLeftEyeTop, 8000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      8500,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      0.5,
+      558,
+      390
     );
     // #endregion
 
@@ -286,6 +308,17 @@ export class TakingScene extends Scene {
       0,
       491
     );
+    this.addKeyframe(this.pepeRightEyeBottom, 8000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      8500,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      0.5,
+      558,
+      390
+    );
 
     this.addKeyframe(
       this.pepeRightEyeTop,
@@ -303,6 +336,17 @@ export class TakingScene extends Scene {
       0,
       491
     );
+    this.addKeyframe(this.pepeRightEyeTop, 8000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      8500,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      0.5,
+      558,
+      390
+    );
     // #endregion
     // #endregion
 
@@ -317,6 +361,15 @@ export class TakingScene extends Scene {
       0,
       491
     );
+    this.addKeyframe(this.pepeHandBottom, 7000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeHandBottom,
+      8000,
+      anim.translation,
+      fn.SIGMOID,
+      -76,
+      -67
+    );
     // #endregion
 
     // #region handTop
@@ -328,6 +381,15 @@ export class TakingScene extends Scene {
       fn.SIGMOID,
       0,
       491
+    );
+    this.addKeyframe(this.pepeHandTop, 7000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeHandTop,
+      8000,
+      anim.translation,
+      fn.SIGMOID,
+      -76,
+      -67
     );
     // #endregion
     // #endregion
