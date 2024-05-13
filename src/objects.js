@@ -1,8 +1,22 @@
 import * as anim from "./helperTools/animation.js";
 import * as fn from "./function.js";
-export class ToiletScene {
+
+export class Scene {
   static START_AT = 0;
+  static END_AT = -1;
+  preventStart(startAt, object) {
+    if (object.keyframes.length < 1 && startAt > 0) {
+      object.addKeyframe(startAt, anim.stay, fn.LINEAR);
+    }
+  }
+
+  makeAnimate() {}
+}
+export class ToiletScene extends Scene {
+  static START_AT = 5000;
+  static END_AT = 30000;
   constructor() {
+    super();
     //toilet
     this.toiletSeatTop = new anim.incompletepolygon();
     this.toiletSeatTop.addPoint(484, 249);
@@ -130,20 +144,31 @@ export class ToiletScene {
     );
   }
 
-  makeAnimate() {
-    this.pepeHandTop.addKeyframe(
-      ToiletScene.START_AT + 3000,
-      anim.translation,
-      fn.BELL,
-      -587,
-      0
+  addKeyframe(object, endAt, transform, moveFunc, ...args) {
+    super.preventStart(
+      ToiletScene.START_AT,
+      object,
+      endAt,
+      transform,
+      moveFunc,
+      ...args
     );
-    this.pepeHandTop.addKeyframe(
-      ToiletScene.START_AT + 5000,
+    object.addKeyframe(
+      ToiletScene.START_AT + endAt,
+      transform,
+      moveFunc,
+      ...args
+    );
+  }
+
+  makeAnimate() {
+    this.addKeyframe(
+      this.pepeHandBottom,
+      1000,
       anim.translation,
-      fn.BELL,
-      795,
-      0
+      fn.SIGMOID,
+      -200,
+      -200
     );
   }
 }

@@ -11,7 +11,12 @@ class point {
 class obj {
   constructor() {
     this.pointlist = [];
+    this.refPoints = [];
+
     this.keyframes = [];
+    this.keyframePointer = 0;
+
+    this.isShow = true;
     this.red = cf.RED;
     this.green = cf.GREEN;
     this.blue = cf.BLUE;
@@ -19,7 +24,8 @@ class obj {
   }
 
   draw(gp) {
-    
+    if (!this.isShow) return;
+    gp.setColor(this.red, this.green, this.blue, this.alpha);
   }
 
   setColor(r, g, b, a) {
@@ -37,6 +43,14 @@ class obj {
       progressFunc
     );
     this.keyframes.push(keyframe);
+  }
+
+  updateReference() {
+    this.refPoints = [];
+    this.pointlist.forEach((oldPoint) => {
+      const newPoint = new point(oldPoint.x, oldPoint.y);
+      this.refPoints.push(newPoint);
+    });
   }
 }
 
@@ -63,12 +77,17 @@ function drawLine(gp, x1, y1, x2, y2) {
 }
 
 export class Line extends obj {
-  constructor( x1, y1, x2, y2) {
+  constructor(x1, y1, x2, y2) {
     super();
     this.pointlist.push(new point(x1, y1));
     this.pointlist.push(new point(x2, y2));
+
+    this.refPoints.push(new point(x1, y1));
+    this.refPoints.push(new point(x2, y2));
   }
   draw(gp) {
+    if (!this.isShow) return;
+    super.draw(gp);
     drawLine(
       gp,
       this.pointlist[0].x,
@@ -82,25 +101,33 @@ export class Line extends obj {
 export class incompletepolygon extends obj {
   addPoint(x, y) {
     this.pointlist.push(new point(x, y));
+    this.refPoints.push(new point(x, y));
   }
 
   draw(gp) {
+    if (!this.isShow) return;
+    super.draw(gp);
     if (this.pointlist.length < 2) {
       return;
     }
 
     for (let i = 0; i < this.pointlist.length - 1; i++) {
-      this.drawLine(gp,
+      this.drawLine(
+        gp,
         this.pointlist[i],
         this.pointlist[(i + 1) % this.pointlist.length]
       );
     }
 
     // Draw the last line connecting the last point to the first point to close the polygon
-    this.drawLine(gp,this.pointlist[this.pointlist.length - 1], this.pointlist[0]);
+    this.drawLine(
+      gp,
+      this.pointlist[this.pointlist.length - 1],
+      this.pointlist[0]
+    );
   }
 
-  drawLine(gp,point1, point2) {
+  drawLine(gp, point1, point2) {
     // Bresenham's line algorithm to draw a line between two points
     let dx = Math.abs(point2.x - point1.x);
     let dy = Math.abs(point2.y - point1.y);
@@ -125,15 +152,22 @@ export class incompletepolygon extends obj {
 }
 
 export class cubicBezierSpline extends obj {
-  constructor( x0, y0, x1, y1, x2, y2, x3, y3) {
+  constructor(x0, y0, x1, y1, x2, y2, x3, y3) {
     super();
     this.pointlist.push(new point(x0, y0));
     this.pointlist.push(new point(x1, y1));
     this.pointlist.push(new point(x2, y2));
     this.pointlist.push(new point(x3, y3));
+
+    this.refPoints.push(new point(x0, y0));
+    this.refPoints.push(new point(x1, y1));
+    this.refPoints.push(new point(x2, y2));
+    this.refPoints.push(new point(x3, y3));
   }
 
   draw(gp) {
+    if (!this.isShow) return;
+    super.draw(gp);
     let interval = 1 / cf.RENDER_PRECISION;
     let u = 0;
     let u1;
@@ -201,6 +235,8 @@ export class splineChain extends cubicBezierSpline {
   }
 
   draw(gp) {
+    if (!this.isShow) return;
+    super.draw(gp);
     let interval = 1 / 1024;
     let u = 0;
     let u1;
@@ -231,7 +267,7 @@ export class splineChain extends cubicBezierSpline {
   }
 }
 
-export function drawAll(objectlist,gp) {
+export function drawAll(objectlist, gp) {
   for (let i = 0; i < objectlist.length; i++) {
     objectlist[i].draw(gp);
   }
@@ -241,8 +277,8 @@ export function translation(obj, tx, ty, percent) {
   tx = Math.round(tx * percent);
   ty = Math.round(ty * percent);
   for (let i = 0; i < obj.pointlist.length; i++) {
-    obj.pointlist[i].x = obj.pointlist[i].x + tx;
-    obj.pointlist[i].y = obj.pointlist[i].y + ty;
+    obj.pointlist[i].x = obj.refPoints[i].x + tx;
+    obj.pointlist[i].y = obj.refPoints[i].y + ty;
   }
 }
 
@@ -261,8 +297,8 @@ export function rotation(obj, degree, centerx, centery, percent) {
   ]);
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
-      [obj.pointlist[i].x],
-      [obj.pointlist[i].y],
+      [obj.refPoints[i].x],
+      [obj.refPoints[i].y],
       [1],
     ]);
     const res = math.multiply(compMatrix, pointMatrix);
@@ -277,8 +313,8 @@ export function scaling(obj, sx, sy, fixedpointx, fixedpointy, percent) {
   sy = 1 + (sy - 1) * percent;
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
-      [obj.pointlist[i].x],
-      [obj.pointlist[i].y],
+      [obj.refPoints[i].x],
+      [obj.refPoints[i].y],
       [1],
     ]);
     const compMatrix = math.matrix([
@@ -298,8 +334,8 @@ export function shearx(obj, sh, yref, percent) {
   sh = sh * percent;
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
-      [obj.pointlist[i].x],
-      [obj.pointlist[i].y],
+      [obj.refPoints[i].x],
+      [obj.refPoints[i].y],
       [1],
     ]);
     const compMatrix = math.matrix([
@@ -319,8 +355,8 @@ export function sheary(obj, sh, xref, percent) {
   sh = sh * percent;
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
-      [obj.pointlist[i].x],
-      [obj.pointlist[i].y],
+      [obj.refPoints[i].x],
+      [obj.refPoints[i].y],
       [1],
     ]);
     const compMatrix = math.matrix([
@@ -336,6 +372,4 @@ export function sheary(obj, sh, xref, percent) {
   }
 }
 
-export function stay(obj,percent){
-
-}
+export function stay(obj, percent) {}

@@ -10,7 +10,7 @@ export const HERMITE_MATRIX_CUBIC = math.matrix([
   [0, 0, 1, 0],
   [1, 0, 0, 0],
 ]);
-export const HERMITE_CONDITION = math.matrix([[0], [1], [0.5], [0]]);
+export const HERMITE_CONDITION = math.matrix([[0], [0], [0], [1]]);
 
 export const BEZIER_MATRIX_CUBIC = math.matrix([
   [-1, 3, -3, 1],
@@ -18,12 +18,12 @@ export const BEZIER_MATRIX_CUBIC = math.matrix([
   [-3, 3, 0, 0],
   [1, 0, 0, 0],
 ]);
-export const BEZIER_CONDITION = math.matrix([[0], [3.855], [0], [0]]);
+export const BEZIER_CONDITION = math.matrix([[0], [0], [1], [1]]);
 
 export const SPLINE_COEF = math.multiply(BEZIER_MATRIX_CUBIC, BEZIER_CONDITION);
 
-export const CONSTANT = (x) => 1;
-export const BELL = (x) => {
+export const LINEAR = (x) => x;
+export const SIGMOID = (x) => {
   const xMatrix = math.matrix([[x * x * x, x * x, x, 1]]);
   const result = math.multiply(xMatrix, SPLINE_COEF);
   return result.subset(math.index(0, 0));
