@@ -1,5 +1,6 @@
 import * as cf from "../config.js";
 import * as kf from "./keyframe.js";
+import * as fn from "../function.js";
 
 class point {
   constructor(x, y) {
@@ -284,6 +285,27 @@ export function drawScenes(scenes, gp) {
   });
 }
 
+export function setPosition(obj, x, y, percent) {
+  let pointNum = obj.pointlist.length;
+  if (pointNum < 1) return;
+
+  x = Math.round(x * percent);
+  y = Math.round(y * percent);
+
+  let baseOldX = obj.refPoints[0].x;
+  let baseOldY = obj.refPoints[0].y;
+  obj.pointlist[0].x = x;
+  obj.pointlist[0].y = y;
+  for (let i = 1; i < pointNum; i++) {
+    obj.pointlist[i].x = obj.refPoints[i].x - baseOldX + x;
+    obj.pointlist[i].y = obj.refPoints[i].y - baseOldY + y;
+  }
+}
+
+export function hide(obj, x, y, percent) {
+  setPosition(obj, x, y, 1);
+}
+
 export function translation(obj, tx, ty, percent) {
   tx = Math.round(tx * percent);
   ty = Math.round(ty * percent);
@@ -291,6 +313,21 @@ export function translation(obj, tx, ty, percent) {
     obj.pointlist[i].x = obj.refPoints[i].x + tx;
     obj.pointlist[i].y = obj.refPoints[i].y + ty;
   }
+}
+
+export function splineTranslation(obj, condMtx, condMty, percent) {
+  let u0 = 1;
+  let u1 = percent;
+  let u2 = u1 * percent;
+  let u3 = u2 * percent;
+  const u = math.matrix([[u3, u2, u1, u0]]);
+  const percentSpline = math.multiply(u, fn.BEZIER_MATRIX_CUBIC);
+  const newX = math.multiply(percentSpline, condMtx);
+  const newY = math.multiply(percentSpline, condMty);
+  let x = newX.subset(math.index(0, 0));
+  let y = newY.subset(math.index(0, 0));
+  // alert(x + "," + y);
+  setPosition(obj, x, y, 1);
 }
 
 export function rotation(obj, degree, centerx, centery, percent) {
