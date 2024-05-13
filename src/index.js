@@ -53,7 +53,7 @@ objectlist.push(toiletScene.pepeHandBottom);
 //objectlist.push(objects.);
 
 // animate zone
-//testspline.addKeyframe(1000, anim.translation, fn.BELL, -200, -200);
+toiletScene.makeAnimate();
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;

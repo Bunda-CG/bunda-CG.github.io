@@ -1,5 +1,7 @@
 import * as anim from "./helperTools/animation.js";
+import * as fn from "./function.js";
 export class ToiletScene {
+  static START_AT = 0;
   constructor() {
     //toilet
     this.toiletSeatTop = new anim.incompletepolygon();
@@ -125,6 +127,23 @@ export class ToiletScene {
       314,
       587,
       337
+    );
+  }
+
+  makeAnimate() {
+    this.pepeHandTop.addKeyframe(
+      ToiletScene.START_AT + 3000,
+      anim.translation,
+      fn.BELL,
+      -587,
+      0
+    );
+    this.pepeHandTop.addKeyframe(
+      ToiletScene.START_AT + 4000,
+      anim.translation,
+      fn.BELL,
+      0,
+      -100
     );
   }
 }
