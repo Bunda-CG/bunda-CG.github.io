@@ -5,6 +5,7 @@ import * as tm from "./helperTools/timer.js";
 import * as anim from "./helperTools/animation.js";
 import * as kf from "./helperTools/keyframe.js";
 import * as sc from "./scenes.js";
+import * as sc2 from "./scene2.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -34,12 +35,15 @@ function runner() {
 }
 
 // define zone
-const toiletScene = new sc.ToiletScene();
+  //const toiletScene = new sc.ToiletScene();
+const fecusScene = new sc2.FecusScene();
+
 // animate zone
-toiletScene.makeAnimate();
+  //toiletScene.makeAnimate();
+fecusScene.makeAnimate();
 
 // push zone
-scenes.push(toiletScene);
+scenes.push(fecusScene);
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
