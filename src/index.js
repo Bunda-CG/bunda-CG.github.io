@@ -4,7 +4,7 @@ import * as fn from "./function.js";
 import * as tm from "./helperTools/timer.js";
 import * as anim from "./helperTools/animation.js";
 import * as kf from "./helperTools/keyframe.js";
-import * as objects from "./objects.js";
+import * as sc from "./scenes.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -34,14 +34,12 @@ function runner() {
 }
 
 // define zone
-const toiletScene = new objects.ToiletScene();
+const toiletScene = new sc.ToiletScene();
+// animate zone
+toiletScene.makeAnimate();
 
 // push zone
 scenes.push(toiletScene);
-//objectlist.push(objects.);
-
-// animate zone
-toiletScene.makeAnimate();
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
