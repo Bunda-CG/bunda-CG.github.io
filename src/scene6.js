@@ -7,8 +7,8 @@ export class TittaScene extends Scene{
   static END_AT = 3000000;
   constructor() {
     super();
-    this.startAt = FecusScene.START_AT;
-    this.endAt = FecusScene.END_AT;
+    this.startAt = TittaScene.START_AT;
+    this.endAt = TittaScene.END_AT;
 
     //outer toilet : circle radius = 250 px, c = (400,300)
     this.outerToiletTop = new anim.cubicBezierSpline(
@@ -122,7 +122,7 @@ export class TittaScene extends Scene{
 
   addKeyframe(object, endAt, transform, moveFunc, ...args) {
     super.preventStart(
-      FecusScene.START_AT,
+      TittaScene.START_AT,
       object,
       endAt,
       transform,
@@ -130,7 +130,7 @@ export class TittaScene extends Scene{
       ...args
     );
     object.addKeyframe(
-      FecusScene.START_AT + endAt,
+      TittaScene.START_AT + endAt,
       transform,
       moveFunc,
       ...args
@@ -140,22 +140,204 @@ export class TittaScene extends Scene{
   makeAnimate() {
     this.addKeyframe(
         this.wave1,
-        4000,
+        20000,
         anim.rotation,
         fn.SIGMOID,
-        -270,
+        -1600,
         400,
         300
-      );
-      this.addKeyframe(
+    );
+    this.addKeyframe(
         this.wave2,
-        4000,
+        20000,
         anim.rotation,
         fn.SIGMOID,
-        -270,
+        -1600,
         400,
         300
-      );
+    );
+
+  //20s = 6s shear + 8s rotate + 6s scaling
+    //shearing
+    this.addKeyframe(
+      this.fecus1Top,
+      6000,
+      anim.shearx,
+      fn.SIGMOID,
+      0.5,
+      370
+    );
+
+    this.addKeyframe(
+      this.fecus1Bottom,
+      6000,
+      anim.shearx,
+      fn.SIGMOID,
+      0.5,
+      370
+    );
+
+    this.addKeyframe(
+      this.fecus2Top,
+      6000,
+      anim.shearx,
+      fn.SIGMOID,
+      -0.12,
+      220
+    );
+
+    this.addKeyframe(
+      this.fecus2BottomLeft,
+      6000,
+      anim.shearx,
+      fn.SIGMOID,
+      -0.12,
+      220
+    );
+
+    this.addKeyframe(
+      this.fecus2BottomRight,
+      6000,
+      anim.shearx,
+      fn.SIGMOID,
+      -0.12,
+      220
+    );
+
+    this.addKeyframe(
+      this.fecus3,
+      6000,
+      anim.sheary,
+      fn.SIGMOID,
+      -1,
+      318
+    );
+
+
+
+    //rotating
+    this.addKeyframe(
+      this.fecus1Top,
+      14000,
+      anim.rotation,
+      fn.LINEAR,
+      -270,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus1Bottom,
+      14000,
+      anim.rotation,
+      fn.LINEAR,
+      -270,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus2Top,
+      14000,
+      anim.rotation,
+      fn.LINEAR,
+      -270,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus2BottomLeft,
+      14000,
+      anim.rotation,
+      fn.LINEAR,
+      -270,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus2BottomRight,
+      14000,
+      anim.rotation,
+      fn.LINEAR,
+      -270,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus3,
+      14000,
+      anim.rotation,
+      fn.LINEAR,
+      -270,
+      400,
+      300
+    );
+
+
+
+    //scaling
+    this.addKeyframe(
+      this.fecus1Top,
+      20000,
+      anim.scaling,
+      fn.SIGMOID,
+      0.25,0.25,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus1Bottom,
+      20000,
+      anim.scaling,
+      fn.SIGMOID,
+      0.25,0.25,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus2Top,
+      20000,
+      anim.scaling,
+      fn.SIGMOID,
+      0.25,0.25,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus2BottomLeft,
+      20000,
+      anim.scaling,
+      fn.SIGMOID,
+      0.25,0.25,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus2BottomRight,
+      20000,
+      anim.scaling,
+      fn.SIGMOID,
+      0.25,0.25,
+      400,
+      300
+    );
+
+    this.addKeyframe(
+      this.fecus3,
+      20000,
+      anim.scaling,
+      fn.SIGMOID,
+      0.25,0.25,
+      400,
+      300
+    );
   }
 
 }
