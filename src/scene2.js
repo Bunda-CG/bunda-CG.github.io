@@ -140,19 +140,19 @@ export class FecusScene extends Scene{
   makeAnimate() {
     this.addKeyframe(
         this.wave1,
-        4000,
+        20000,
         anim.rotation,
         fn.SIGMOID,
-        -270,
+        -1600,
         400,
         300
       );
       this.addKeyframe(
         this.wave2,
-        4000,
+        20000,
         anim.rotation,
         fn.SIGMOID,
-        -270,
+        -1600,
         400,
         300
       );
