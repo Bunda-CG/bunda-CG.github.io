@@ -11,7 +11,7 @@ export class Scene {
   makeAnimate() {}
 }
 export class ToiletScene extends Scene {
-  static START_AT = 5000;
+  static START_AT = 0;
   static END_AT = 30000;
   constructor() {
     super();
@@ -169,6 +169,32 @@ export class ToiletScene extends Scene {
       fn.SIGMOID,
       -200,
       -200
+    );
+    this.addKeyframe(
+      this.pepeHandBottom,
+      3000,
+      anim.rotation,
+      fn.SIGMOID,
+      500,
+      400,
+      300
+    );
+    this.addKeyframe(
+      this.pepeHandTop,
+      1000,
+      anim.translation,
+      fn.SIGMOID,
+      -200,
+      -200
+    );
+    this.addKeyframe(
+      this.pepeHandTop,
+      3000,
+      anim.rotation,
+      fn.SIGMOID,
+      500,
+      400,
+      300
     );
   }
 }
