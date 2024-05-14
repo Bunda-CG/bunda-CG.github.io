@@ -5,6 +5,7 @@ import * as tm from "./helperTools/timer.js";
 import * as anim from "./helperTools/animation.js";
 import * as kf from "./helperTools/keyframe.js";
 import * as sc from "./scenes.js";
+import * as sc5 from "./scence5.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -34,7 +35,7 @@ function runner() {
 }
 
 // define zone
-const toiletScene = new sc.ToiletScene();
+const toiletScene = new sc5.walkwithScene();
 // animate zone
 toiletScene.makeAnimate();
 
