@@ -3,8 +3,8 @@ import * as fn from "./function.js";
 import { Scene } from "./scenes.js";
 
 export class TittaScene extends Scene {
-  static START_AT = 0;
-  static END_AT = 3000000;
+  static START_AT = 87000;
+  static END_AT = 108000;
   constructor() {
     super();
     this.startAt = TittaScene.START_AT;
