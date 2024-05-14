@@ -11,6 +11,7 @@ import * as sc3 from "./scene3.js";
 import * as sc4 from "./scene4.js";
 import * as sc5 from "./scene5.js";
 import * as sc6 from "./scene6.js";
+import * as sc7 from "./scene7.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -46,6 +47,7 @@ const walkOutScene = new sc3.walkScene();
 const lookforhelpScene = new sc4.LookforhelpScene();
 const walkInScene = new sc5.walkwithScene();
 const tittaScene = new sc6.TittaScene();
+const stareScene = new sc7.StareScene();
 
 // animate zone
 takingScene.makeAnimate();
@@ -54,6 +56,7 @@ walkOutScene.makeAnimate();
 lookforhelpScene.makeAnimate();
 walkInScene.makeAnimate();
 tittaScene.makeAnimate();
+stareScene.makeAnimate();
 
 // push zone
 scenes.push(takingScene);
@@ -62,6 +65,7 @@ scenes.push(walkOutScene);
 scenes.push(lookforhelpScene);
 scenes.push(walkInScene);
 scenes.push(tittaScene);
+scenes.push(stareScene);
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
