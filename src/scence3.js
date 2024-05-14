@@ -58,65 +58,57 @@ export class walkScene extends Scene {
 
    //pepe in toilet body
     this.pepeToiletTop = new anim.cubicBezierSpline(
-      508,
-      364,
-      508,
-      461,
-      654,
-      461,
-      654,
-      364
+      308,264,
+      308,361,
+      454,361,
+      454,264
     );
     this.pepeToiletBottom = new anim.cubicBezierSpline(
-      508,
-      364,
-      508,
-      267,
-      654,
-      267,
-      654,
-      364
+      308,264,
+      308,167,
+      454,167,
+      454,264
     );
 
     //pepe eyes
     this.pepeLeftEyeTop = new anim.cubicBezierSpline(
-      593,399,
-      593,430,
-      577,430,
-      577,399
+      393,299,
+      393,330,
+      377,330,
+      377,299
     );
     this.pepeLeftEyeBottom = new anim.cubicBezierSpline(
-      593,399,
-      593,368,
-      577,368,
-      577,399
+      393,299,
+      393,268,
+      377,268,
+      377,299
     );
 
     this.pepeRightEyeTop = new anim.cubicBezierSpline(
-      560,399,
-      560,430,
-      544,430,
-      544,399
+      360,299,
+      360,330,
+      344,330,
+      344,299
     );
     this.pepeRightEyeBottom = new anim.cubicBezierSpline(
-      560,399,
-      560,368,
-      544,368,
-      544,399
+      360,299,
+      360,268,
+      344,268,
+      344,299
     );
 
     //pepe hand
     this.pepeHandTop = new anim.cubicBezierSpline(
-      642,337,
-      642,360,
-      607,360,
-      607,337
+      422,237,
+      422,260,
+      387,260,
+      387,237
     );
     this.pepeHandBottom = new anim.cubicBezierSpline(
-      642,337,
-      642,314,
-      607,314,
-      607,337
+      422,237,
+      422,214,
+      387,214,
+      387,237
     );
 
     }
@@ -142,339 +134,67 @@ export class walkScene extends Scene {
     //move down pepe eye
       this.addKeyframe(
         this.pepeLeftEyeBottom,
-        3000,
+        7000,
         anim.translation,
         fn.SIGMOID,
-        0,
-        -50
+        -460,
+      0
       );
       
       this.addKeyframe(
         this.pepeLeftEyeTop,
-        3000,
+        7000,
         anim.translation,
         fn.SIGMOID,
-        0,
-        -50
+        -460,
+      0
       );
       this.addKeyframe(
         this.pepeRightEyeBottom,
-        3000,
+        7000,
         anim.translation,
         fn.SIGMOID,
-        0,
-        -50
+        -460,
+      0
     );
     this.addKeyframe(
         this.pepeRightEyeTop,
-        3000,
+        7000,
         anim.translation,
         fn.SIGMOID,
-        0,
-        -50
+        -460,
+      0
     );
     this.addKeyframe(
         this.pepeHandBottom,
-        3000,
+        7000,
         anim.translation,
         fn.SIGMOID,
-        0,
-        30
+        -460,
+      0
     );
     this.addKeyframe(
-        this.pepeHandTop,
-        3000,
+      this.pepeHandTop,
+        7000,
         anim.translation,
         fn.SIGMOID,
-        0,
-        30
+        -460,
+        0
     );
     this.addKeyframe(
       this.pepeToiletTop,
-      3000,
+      7000,
       anim.translation,
       fn.SIGMOID,
-      0,
-      10
-    );
-    this.addKeyframe(
-      this.pepeToiletBottom,
-      3000,
-      anim.translation,
-      fn.SIGMOID,
-      0,
-      10
-    );
-
-    //jump
-
-    //move down pepe eye
-    this.addKeyframe(
-      this.pepeLeftEyeBottom,
-      6000,
-      anim.translation,
-      fn.LINEAR,
-      -160,
-      -10
-    );
-    
-    this.addKeyframe(
-      this.pepeLeftEyeTop,
-      6000,
-      anim.translation,
-      fn.LINEAR,
-      -160,
-      -10
-    );
-    this.addKeyframe(
-      this.pepeRightEyeBottom,
-      6000,
-      anim.translation,
-      fn.LINEAR,
-      -160,
-      -10
-    );
-    this.addKeyframe(
-      this.pepeRightEyeTop,
-      6000,
-      anim.translation,
-      fn.LINEAR,
-      -160,
-      -10
-    );
-    this.addKeyframe(
-      this.pepeHandBottom,
-      6000,
-      anim.translation,
-      fn.LINEAR,
-      -160,
-      -10
-    );
-    this.addKeyframe(
-      this.pepeHandTop,
-      6000,
-      anim.translation,
-      fn.LINEAR,
-      -160,
-      -10
-    );
-    this.addKeyframe(
-      this.pepeToiletTop,
-      6000,
-      anim.translation,
-      fn.LINEAR,
-      -160,
-      -10
-    );
-    this.addKeyframe(
-      this.pepeToiletBottom,
-      6000,
-      anim.translation,
-      fn.LINEAR,
-      -160,
-      -10,
-    );
-
-//
-
-    this.addKeyframe(
-      this.pepeLeftEyeBottom,
-      8000,
-      anim.translation,
-      fn.SIGMOID,
-      -90,
-      -100
-    );
-    
-    this.addKeyframe(
-      this.pepeLeftEyeTop,
-      8000,
-      anim.translation,
-      fn.SIGMOID,
-      -90,
-      -100
-    );
-    this.addKeyframe(
-      this.pepeRightEyeBottom,
-      8000,
-      anim.translation,
-      fn.SIGMOID,
-      -90,
-      -100
-    );
-    this.addKeyframe(
-      this.pepeRightEyeTop,
-      8000,
-      anim.translation,
-      fn.SIGMOID,
-      -90,
-      -100
-    );
-    this.addKeyframe(
-      this.pepeHandBottom,
-      8000,
-      anim.translation,
-      fn.SIGMOID,
-      -90,
-      -100
-    );
-    this.addKeyframe(
-      this.pepeHandTop,
-      8000,
-      anim.translation,
-      fn.SIGMOID,
-      -90,
-      -100
-    );
-    this.addKeyframe(
-      this.pepeToiletTop,
-      8000,
-      anim.translation,
-      fn.SIGMOID,
-      -90,
-      -100
-    );
-    this.addKeyframe(
-      this.pepeToiletBottom,
-      8000,
-      anim.translation,
-      fn.SIGMOID,
-      -90,
-      -100
-    );
-
-    // stand
-    this.addKeyframe(
-      this.pepeLeftEyeBottom,
-      10000,
-      anim.translation,
-      fn.SIGMOID,
-      0,
-      40
-    );
-    
-    this.addKeyframe(
-      this.pepeLeftEyeTop,
-      10000,
-      anim.translation,
-      fn.SIGMOID,
-      0,
-      40
-    );
-    this.addKeyframe(
-      this.pepeRightEyeBottom,
-      10000,
-      anim.translation,
-      fn.SIGMOID,
-      0,
-      40
-    );
-    this.addKeyframe(
-      this.pepeRightEyeTop,
-      10000,
-      anim.translation,
-      fn.SIGMOID,
-      0,
-      40
-    );
-    this.addKeyframe(
-      this.pepeHandBottom,
-      10000,
-      anim.translation,
-      fn.SIGMOID,
-      0,
-      -20
-    );
-    this.addKeyframe(
-      this.pepeHandTop,
-      10000,
-      anim.translation,
-      fn.SIGMOID,
-      0,
-      -20
-    );
-    this.addKeyframe(
-      this.pepeToiletTop,
-      10000,
-      anim.translation,
-      fn.SIGMOID,
-      0,
+      -460,
       0
     );
     this.addKeyframe(
       this.pepeToiletBottom,
-      10000,
+      7000,
       anim.translation,
       fn.SIGMOID,
-      0,
-      0
-    );
-
-    //walk
-    // stand
-    this.addKeyframe(
-      this.pepeLeftEyeBottom,
-      15000,
-      anim.translation,
-      fn.SIGMOID,
-      -410,
-      0
-    );
-    
-    this.addKeyframe(
-      this.pepeLeftEyeTop,
-      15000,
-      anim.translation,
-      fn.SIGMOID,
-      -410,
-      0
-    );
-    this.addKeyframe(
-      this.pepeRightEyeBottom,
-      15000,
-      anim.translation,
-      fn.SIGMOID,
-      -410,
-      0
-    );
-    this.addKeyframe(
-      this.pepeRightEyeTop,
-      15000,
-      anim.translation,
-      fn.SIGMOID,
-      -410,
-      0
-    );
-    this.addKeyframe(
-      this.pepeHandBottom,
-      15000,
-      anim.translation,
-      fn.SIGMOID,
-      -410,
-      0
-    );
-    this.addKeyframe(
-      this.pepeHandTop,
-      15000,
-      anim.translation,
-      fn.SIGMOID,
-      -410,
-      0
-    );
-    this.addKeyframe(
-      this.pepeToiletTop,
-      15000,
-      anim.translation,
-      fn.SIGMOID,
-      -410,
-      0
-    );
-    this.addKeyframe(
-      this.pepeToiletBottom,
-      15000,
-      anim.translation,
-      fn.SIGMOID,
-      -410,
+      -460,
       0
     );
   } 
