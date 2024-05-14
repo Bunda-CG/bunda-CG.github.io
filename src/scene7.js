@@ -3,8 +3,8 @@ import * as fn from "./function.js";
 import { Scene } from "./scenes.js";
 
 export class StareScene extends Scene {
-  static START_AT = 0;
-  static END_AT = 999999999;
+  static START_AT = 108000;
+  static END_AT = 139000;
   constructor() {
     super();
     this.startAt = StareScene.START_AT;
