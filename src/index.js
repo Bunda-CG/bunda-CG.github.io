@@ -4,7 +4,7 @@ import * as fn from "./function.js";
 import * as tm from "./helperTools/timer.js";
 import * as anim from "./helperTools/animation.js";
 import * as kf from "./helperTools/keyframe.js";
-import * as sc from "./scenes.js";
+
 import { TakingScene } from "./scene1.js";
 import * as sc2 from "./scene2.js";
 import * as sc3 from "./scene3.js";
