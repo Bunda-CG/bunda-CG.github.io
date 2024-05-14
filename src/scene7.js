@@ -125,6 +125,15 @@ export class StareScene extends Scene {
     this.pattern.addPoint(...[572, 18], ...[553, 46]);
     this.pattern.addPoint(...[599, 0], ...[583, -2]);
     // #endregion
+
+    // #region path
+    this.path = new anim.cubicBezierSpline(
+      ...[517, 381],
+      ...[787, 439],
+      ...[308, 574],
+      ...[517, 700]
+    );
+    // #endregion
     // #endregion
   }
 
@@ -692,9 +701,184 @@ export class StareScene extends Scene {
     );
     // #endregion
 
-    // #region pepeLevitate
-    const bodyLevX = math.matrix([[], [], [], []]);
-    const bodyLevY = math.matrix([[], [], [], []]);
+    // #region pepeLevitate1
+    // 451 291
+    // ...[517, 281],
+    //   ...[747, 328],
+    //   ...[360, 355],
+    //   ...[517, 381]
+    const bodyLevX = math.matrix([[451], [681], [294], [451]]);
+    const bodyLevY = math.matrix([[291], [318], [345], [371]]);
+    this.addKeyframe(
+      this.pepeBodyBottom,
+      24000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      bodyLevX,
+      bodyLevY
+    );
+    this.addKeyframe(
+      this.pepeBodyTop,
+      24000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      bodyLevX,
+      bodyLevY
+    );
+
+    this.addKeyframe(this.pepeLeftEyeBottom, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.pepeLeftEyeTop, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.pepeRightEyeBottom, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.pepeRightEyeTop, 20000, anim.stay, fn.LINEAR);
+    // 458 300
+    const leftEyeLevX = math.matrix([
+      [451 + 7],
+      [681 + 7],
+      [294 + 7],
+      [451 + 7],
+    ]);
+    const leftEyeLevY = math.matrix([
+      [291 + 9],
+      [318 + 9],
+      [345 + 9],
+      [371 + 9],
+    ]);
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      24000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      leftEyeLevX,
+      leftEyeLevY
+    );
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      24000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      leftEyeLevX,
+      leftEyeLevY
+    );
+
+    // 480 300
+    const rightEyeLevX = math.matrix([
+      [451 + 29],
+      [681 + 29],
+      [294 + 29],
+      [451 + 29],
+    ]);
+    const rightEyeLevY = math.matrix([
+      [291 + 9],
+      [318 + 9],
+      [345 + 9],
+      [371 + 9],
+    ]);
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      24000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      rightEyeLevX,
+      rightEyeLevY
+    );
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      24000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      rightEyeLevX,
+      rightEyeLevY
+    );
+    // #endregion
+
+    // #region pepeLevitate2
+    // 451 291
+    // ...[517, 381],
+    // ...[787, 439],
+    // ...[308, 574],
+    // ...[517, 700]
+    const bodyLev2X = math.matrix([[517 + 0], [787 + 0], [308 + 0], [517 + 0]]);
+    const bodyLev2Y = math.matrix([[381 + 0], [439 + 0], [574 + 0], [700 + 0]]);
+    this.addKeyframe(
+      this.pepeBodyBottom,
+      30000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      bodyLev2X,
+      bodyLev2Y
+    );
+    // this.addKeyframe(
+    //   this.pepeBodyTop,
+    //   30000,
+    //   anim.splineTranslation,
+    //   fn.SIGMOID,
+    //   bodyLev2X,
+    //   bodyLev2Y
+    // );
+
+    this.addKeyframe(this.pepeLeftEyeBottom, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.pepeLeftEyeTop, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.pepeRightEyeBottom, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.pepeRightEyeTop, 20000, anim.stay, fn.LINEAR);
+    // 458 300
+    const leftEyeLev2X = math.matrix([
+      [451 + 7],
+      [681 + 7],
+      [294 + 7],
+      [451 + 7],
+    ]);
+    const leftEyeLev2Y = math.matrix([
+      [291 + 9],
+      [318 + 9],
+      [345 + 9],
+      [371 + 9],
+    ]);
+    // this.addKeyframe(
+    //   this.pepeLeftEyeBottom,
+    //   30000,
+    //   anim.splineTranslation,
+    //   fn.SIGMOID,
+    //   leftEyeLev2X,
+    //   leftEyeLev2Y
+    // );
+    // this.addKeyframe(
+    //   this.pepeLeftEyeTop,
+    //   30000,
+    //   anim.splineTranslation,
+    //   fn.SIGMOID,
+    //   leftEyeLev2X,
+    //   leftEyeLev2Y
+    // );
+
+    // 480 300
+    const rightEyeLev2X = math.matrix([
+      [451 + 29],
+      [681 + 29],
+      [294 + 29],
+      [451 + 29],
+    ]);
+    const rightEyeLev2Y = math.matrix([
+      [291 + 9],
+      [318 + 9],
+      [345 + 9],
+      [371 + 9],
+    ]);
+    // this.addKeyframe(
+    //   this.pepeRightEyeBottom,
+    //   30000,
+    //   anim.splineTranslation,
+    //   fn.SIGMOID,
+    //   rightEyeLev2X,
+    //   rightEyeLev2Y
+    // );
+    // this.addKeyframe(
+    //   this.pepeRightEyeTop,
+    //   30000,
+    //   anim.splineTranslation,
+    //   fn.SIGMOID,
+    //   rightEyeLev2X,
+    //   rightEyeLev2Y
+    // );
     // #endregion
     // #endregion
   }
