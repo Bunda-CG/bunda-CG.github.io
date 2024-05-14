@@ -1,5 +1,6 @@
 import * as cf from "../config.js";
 import * as kf from "./keyframe.js";
+import * as fn from "../function.js";
 
 class point {
   constructor(x, y) {
@@ -218,13 +219,16 @@ export class splineChain extends cubicBezierSpline {
     return new point(xPrime, yPrime);
   }
 
-  addPoint(x, y) {
+  addPoint(x, y, ...more) {
     const p3 = this.pointlist[this.pointlist.length - 1];
     const p2 = this.pointlist[this.pointlist.length - 2];
     const p1 = this.pointlist[this.pointlist.length - 3];
     const p0new = new point(p3.x, p3.y);
     const p1new = this.findP1(p3.x, p3.y, p2.x, p2.y);
-    const p2new = this.findP2(p3.x, p3.y, p2.x, p2.y, p1.x, p1.y);
+    const p2new =
+      more.length !== 2
+        ? this.findP2(p3.x, p3.y, p2.x, p2.y, p1.x, p1.y)
+        : new point(...more);
 
     this.pointlist.push(p0new); // p0
     this.pointlist.push(p1new); // p1
@@ -235,34 +239,22 @@ export class splineChain extends cubicBezierSpline {
   }
 
   draw(gp) {
+    // alert();
     if (!this.isShow) return;
-    super.draw(gp);
-    let interval = 1 / 1024;
-    let u = 0;
-    let u1;
-    let px;
-    let py;
-    let sectionOffset = this.sectionPointer * 4;
-    console.log(this.pointlist);
-
-    while (u < 1) {
-      u1 = 1 - u;
-      px =
-        this.pointlist[sectionOffset + 0].x * u1 * u1 * u1 +
-        this.pointlist[sectionOffset + 1].x * 3 * u * u1 * u1 +
-        this.pointlist[sectionOffset + 2].x * 3 * u * u * u1 +
-        this.pointlist[sectionOffset + 3].x * u * u * u;
-      py =
-        this.pointlist[sectionOffset + 0].y * u1 * u1 * u1 +
-        this.pointlist[sectionOffset + 1].y * 3 * u * u1 * u1 +
-        this.pointlist[sectionOffset + 2].y * 3 * u * u * u1 +
-        this.pointlist[sectionOffset + 3].y * u * u * u;
-
-      gp.setPixel(parseInt(px), parseInt(py));
-      u = u + interval;
+    for (; this.sectionPointer < this.sectionNum; this.sectionPointer++) {
+      let sectionOffset = this.sectionPointer * 4;
+      const p0 = this.pointlist[sectionOffset + 0];
+      const p1 = this.pointlist[sectionOffset + 1];
+      const p2 = this.pointlist[sectionOffset + 2];
+      const p3 = this.pointlist[sectionOffset + 3];
+      const tempSpline = new cubicBezierSpline(
+        ...[p0.x, p0.y],
+        ...[p1.x, p1.y],
+        ...[p2.x, p2.y],
+        ...[p3.x, p3.y]
+      );
+      tempSpline.draw(gp);
     }
-    this.sectionPointer++;
-    if (this.sectionPointer < this.sectionNum) this.draw();
     this.sectionPointer = 0;
   }
 }
@@ -284,6 +276,27 @@ export function drawScenes(scenes, gp) {
   });
 }
 
+export function setPosition(obj, x, y, percent) {
+  let pointNum = obj.pointlist.length;
+  if (pointNum < 1) return;
+
+  x = Math.round(x * percent);
+  y = Math.round(y * percent);
+
+  let baseOldX = obj.refPoints[0].x;
+  let baseOldY = obj.refPoints[0].y;
+  obj.pointlist[0].x = x;
+  obj.pointlist[0].y = y;
+  for (let i = 1; i < pointNum; i++) {
+    obj.pointlist[i].x = obj.refPoints[i].x - baseOldX + x;
+    obj.pointlist[i].y = obj.refPoints[i].y - baseOldY + y;
+  }
+}
+
+export function hide(obj, x, y, percent) {
+  setPosition(obj, x, y, 1);
+}
+
 export function translation(obj, tx, ty, percent) {
   tx = Math.round(tx * percent);
   ty = Math.round(ty * percent);
@@ -291,6 +304,21 @@ export function translation(obj, tx, ty, percent) {
     obj.pointlist[i].x = obj.refPoints[i].x + tx;
     obj.pointlist[i].y = obj.refPoints[i].y + ty;
   }
+}
+
+export function splineTranslation(obj, condMtx, condMty, percent) {
+  let u0 = 1;
+  let u1 = percent;
+  let u2 = u1 * percent;
+  let u3 = u2 * percent;
+  const u = math.matrix([[u3, u2, u1, u0]]);
+  const percentSpline = math.multiply(u, fn.BEZIER_MATRIX_CUBIC);
+  const newX = math.multiply(percentSpline, condMtx);
+  const newY = math.multiply(percentSpline, condMty);
+  let x = newX.subset(math.index(0, 0));
+  let y = newY.subset(math.index(0, 0));
+  // alert(x + "," + y);
+  setPosition(obj, x, y, 1);
 }
 
 export function rotation(obj, degree, centerx, centery, percent) {

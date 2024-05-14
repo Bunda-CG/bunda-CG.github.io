@@ -5,6 +5,11 @@ import * as tm from "./helperTools/timer.js";
 import * as anim from "./helperTools/animation.js";
 import * as kf from "./helperTools/keyframe.js";
 import * as sc from "./scenes.js";
+import { TakingScene } from "./scene1.js";
+import * as sc2 from "./scene2.js";
+import * as sc3 from "./scene3.js";
+import * as sc4 from "./scene4.js";
+import * as sc5 from "./scene5.js";
 import * as sc6 from "./scene6.js";
 
 const gp = new elem.Graphic();
@@ -35,12 +40,27 @@ function runner() {
 }
 
 // define zone
+const takingScene = new TakingScene();
+const fecusScene = new sc2.FecusScene();
+const walkOutScene = new sc3.walkScene();
+const lookforhelpScene = new sc4.LookforhelpScene();
+const walkInScene = new sc5.walkwithScene();
 const tittaScene = new sc6.TittaScene();
 
 // animate zone
+takingScene.makeAnimate();
+fecusScene.makeAnimate();
+walkOutScene.makeAnimate();
+lookforhelpScene.makeAnimate();
+walkInScene.makeAnimate();
 tittaScene.makeAnimate();
 
 // push zone
+scenes.push(takingScene);
+scenes.push(fecusScene);
+scenes.push(walkOutScene);
+scenes.push(lookforhelpScene);
+scenes.push(walkInScene);
 scenes.push(tittaScene);
 
 //-----------------------------------------------------------------------------------------------------------------------
