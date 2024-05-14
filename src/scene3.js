@@ -2,13 +2,13 @@ import * as anim from "./helperTools/animation.js";
 import * as fn from "./function.js";
 import { Scene } from "./scenes.js";
 export class walkScene extends Scene {
-    static START_AT = 0;
-    static END_AT = 30000;
-    constructor() {
-      super();
-      this.startAt = walkScene.START_AT;
-      this.endAt = walkScene.END_AT;
-      //toilet
+  static START_AT = 47000;
+  static END_AT = 54000;
+  constructor() {
+    super();
+    this.startAt = walkScene.START_AT;
+    this.endAt = walkScene.END_AT;
+    //toilet
     this.toiletSeatTop = new anim.incompletepolygon();
     this.toiletSeatTop.addPoint(484, 249);
     this.toiletSeatTop.addPoint(484, 291);
@@ -56,130 +56,161 @@ export class walkScene extends Scene {
     //floorinToiletScene
     this.toiletFloor = new anim.Line(0, 190, 800, 190);
 
-   //pepe in toilet body
+    //pepe in toilet body
     this.pepeToiletTop = new anim.cubicBezierSpline(
-      308,264,
-      308,361,
-      454,361,
-      454,264
+      308,
+      264,
+      308,
+      361,
+      454,
+      361,
+      454,
+      264
     );
     this.pepeToiletBottom = new anim.cubicBezierSpline(
-      308,264,
-      308,167,
-      454,167,
-      454,264
+      308,
+      264,
+      308,
+      167,
+      454,
+      167,
+      454,
+      264
     );
 
     //pepe eyes
     this.pepeLeftEyeTop = new anim.cubicBezierSpline(
-      393,299,
-      393,330,
-      377,330,
-      377,299
+      393,
+      299,
+      393,
+      330,
+      377,
+      330,
+      377,
+      299
     );
     this.pepeLeftEyeBottom = new anim.cubicBezierSpline(
-      393,299,
-      393,268,
-      377,268,
-      377,299
+      393,
+      299,
+      393,
+      268,
+      377,
+      268,
+      377,
+      299
     );
 
     this.pepeRightEyeTop = new anim.cubicBezierSpline(
-      360,299,
-      360,330,
-      344,330,
-      344,299
+      360,
+      299,
+      360,
+      330,
+      344,
+      330,
+      344,
+      299
     );
     this.pepeRightEyeBottom = new anim.cubicBezierSpline(
-      360,299,
-      360,268,
-      344,268,
-      344,299
+      360,
+      299,
+      360,
+      268,
+      344,
+      268,
+      344,
+      299
     );
 
     //pepe hand
     this.pepeHandTop = new anim.cubicBezierSpline(
-      422,237,
-      422,260,
-      387,260,
-      387,237
+      422,
+      237,
+      422,
+      260,
+      387,
+      260,
+      387,
+      237
     );
     this.pepeHandBottom = new anim.cubicBezierSpline(
-      422,237,
-      422,214,
-      387,214,
-      387,237
+      422,
+      237,
+      422,
+      214,
+      387,
+      214,
+      387,
+      237
+    );
+  }
+
+  addKeyframe(object, endAt, transform, moveFunc, ...args) {
+    super.preventStart(
+      walkScene.START_AT,
+      object,
+      endAt,
+      transform,
+      moveFunc,
+      ...args
+    );
+    object.addKeyframe(
+      walkScene.START_AT + endAt,
+      transform,
+      moveFunc,
+      ...args
+    );
+  }
+
+  makeAnimate() {
+    //move down pepe eye
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
+      0
     );
 
-    }
-  
-    addKeyframe(object, endAt, transform, moveFunc, ...args) {
-      super.preventStart(
-        walkScene.START_AT,
-        object,
-        endAt,
-        transform,
-        moveFunc,
-        ...args
-      );
-      object.addKeyframe(
-        walkScene.START_AT + endAt,
-        transform,
-        moveFunc,
-        ...args
-      );
-    }
-  
-    makeAnimate() {
-    //move down pepe eye
-      this.addKeyframe(
-        this.pepeLeftEyeBottom,
-        7000,
-        anim.translation,
-        fn.SIGMOID,
-        -460,
-      0
-      );
-      
-      this.addKeyframe(
-        this.pepeLeftEyeTop,
-        7000,
-        anim.translation,
-        fn.SIGMOID,
-        -460,
-      0
-      );
-      this.addKeyframe(
-        this.pepeRightEyeBottom,
-        7000,
-        anim.translation,
-        fn.SIGMOID,
-        -460,
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
       0
     );
     this.addKeyframe(
-        this.pepeRightEyeTop,
-        7000,
-        anim.translation,
-        fn.SIGMOID,
-        -460,
+      this.pepeRightEyeBottom,
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
       0
     );
     this.addKeyframe(
-        this.pepeHandBottom,
-        7000,
-        anim.translation,
-        fn.SIGMOID,
-        -460,
+      this.pepeRightEyeTop,
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
+      0
+    );
+    this.addKeyframe(
+      this.pepeHandBottom,
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
       0
     );
     this.addKeyframe(
       this.pepeHandTop,
-        7000,
-        anim.translation,
-        fn.SIGMOID,
-        -460,
-        0
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
+      0
     );
     this.addKeyframe(
       this.pepeToiletTop,
@@ -197,5 +228,5 @@ export class walkScene extends Scene {
       -460,
       0
     );
-  } 
+  }
 }

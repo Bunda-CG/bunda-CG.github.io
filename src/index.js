@@ -7,7 +7,7 @@ import * as kf from "./helperTools/keyframe.js";
 import * as sc from "./scenes.js";
 import { TakingScene } from "./scene1.js";
 import * as sc2 from "./scene2.js";
-import * as sc3 from "./scence3.js";
+import * as sc3 from "./scene3.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
