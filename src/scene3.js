@@ -1,22 +1,13 @@
 import * as anim from "./helperTools/animation.js";
 import * as fn from "./function.js";
-
-export class Scene {
-  preventStart(startAt, object) {
-    if (object.keyframes.length < 1 && startAt > 0) {
-      object.addKeyframe(startAt, anim.stay, fn.LINEAR);
-    }
-  }
-
-  makeAnimate() {}
-}
-export class ToiletScene extends Scene {
-  static START_AT = 0;
-  static END_AT = 30000;
+import { Scene } from "./scenes.js";
+export class walkScene extends Scene {
+  static START_AT = 47000;
+  static END_AT = 54000;
   constructor() {
     super();
-    this.startAt = ToiletScene.START_AT;
-    this.endAt = ToiletScene.END_AT;
+    this.startAt = walkScene.START_AT;
+    this.endAt = walkScene.END_AT;
     //toilet
     this.toiletSeatTop = new anim.incompletepolygon();
     this.toiletSeatTop.addPoint(484, 249);
@@ -31,6 +22,15 @@ export class ToiletScene extends Scene {
     this.toiletSeatPing.addPoint(678, 480);
     this.toiletSeatPing.addPoint(655, 480);
     this.toiletSeatPing.addPoint(655, 291);
+
+    //                                p0    p1     p2     p3
+    // const condMtx = math.matrix([[197], [290], [449], [567]]);
+    // const condMty = math.matrix([[118], [293], [102], [431]]);
+    /*const p0 = [487, 438];
+    const p1 = [290, 293];
+    const p2 = [449, 102];
+    const p3 = [567, 431];
+    this.path = new anim.cubicBezierSpline(...p0, ...p1, ...p2, ...p3);*/
 
     this.toiletSeatBottomLeft = new anim.cubicBezierSpline(
       541,
@@ -56,97 +56,97 @@ export class ToiletScene extends Scene {
     //floorinToiletScene
     this.toiletFloor = new anim.Line(0, 190, 800, 190);
 
-    //pepe in toilet
+    //pepe in toilet body
     this.pepeToiletTop = new anim.cubicBezierSpline(
-      508,
-      364,
-      508,
-      461,
-      654,
-      461,
-      654,
-      364
+      308,
+      264,
+      308,
+      361,
+      454,
+      361,
+      454,
+      264
     );
     this.pepeToiletBottom = new anim.cubicBezierSpline(
-      508,
-      364,
-      508,
-      267,
-      654,
-      267,
-      654,
-      364
+      308,
+      264,
+      308,
+      167,
+      454,
+      167,
+      454,
+      264
     );
 
     //pepe eyes
     this.pepeLeftEyeTop = new anim.cubicBezierSpline(
-      593,
-      389,
-      593,
-      420,
-      577,
-      420,
-      577,
-      389
+      393,
+      299,
+      393,
+      330,
+      377,
+      330,
+      377,
+      299
     );
     this.pepeLeftEyeBottom = new anim.cubicBezierSpline(
-      593,
-      389,
-      593,
-      358,
-      577,
-      358,
-      577,
-      389
+      393,
+      299,
+      393,
+      268,
+      377,
+      268,
+      377,
+      299
     );
 
     this.pepeRightEyeTop = new anim.cubicBezierSpline(
-      560,
-      389,
-      560,
-      420,
-      544,
-      420,
-      544,
-      389
+      360,
+      299,
+      360,
+      330,
+      344,
+      330,
+      344,
+      299
     );
     this.pepeRightEyeBottom = new anim.cubicBezierSpline(
-      560,
-      389,
-      560,
-      358,
-      544,
-      358,
-      544,
-      389
+      360,
+      299,
+      360,
+      268,
+      344,
+      268,
+      344,
+      299
     );
 
     //pepe hand
     this.pepeHandTop = new anim.cubicBezierSpline(
-      622,
-      337,
-      622,
-      360,
-      587,
-      360,
-      587,
-      337
+      422,
+      237,
+      422,
+      260,
+      387,
+      260,
+      387,
+      237
     );
     this.pepeHandBottom = new anim.cubicBezierSpline(
-      622,
-      337,
-      622,
-      314,
-      587,
-      314,
-      587,
-      337
+      422,
+      237,
+      422,
+      214,
+      387,
+      214,
+      387,
+      237
     );
   }
 
   addKeyframe(object, endAt, transform, moveFunc, ...args) {
     super.preventStart(
-      ToiletScene.START_AT,
+      walkScene.START_AT,
       object,
       endAt,
       transform,
@@ -154,7 +154,7 @@ export class ToiletScene extends Scene {
       ...args
     );
     object.addKeyframe(
-      ToiletScene.START_AT + endAt,
+      walkScene.START_AT + endAt,
       transform,
       moveFunc,
       ...args
@@ -162,39 +162,71 @@ export class ToiletScene extends Scene {
   }
 
   makeAnimate() {
+    //move down pepe eye
     this.addKeyframe(
-      this.pepeHandBottom,
-      1000,
+      this.pepeLeftEyeBottom,
+      7000,
       anim.translation,
       fn.SIGMOID,
-      -200,
-      -200
+      -460,
+      0
+    );
+
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
+      0
+    );
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
+      0
+    );
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
+      0
     );
     this.addKeyframe(
       this.pepeHandBottom,
-      3000,
-      anim.rotation,
+      7000,
+      anim.translation,
       fn.SIGMOID,
-      500,
-      400,
-      300
+      -460,
+      0
     );
     this.addKeyframe(
       this.pepeHandTop,
-      1000,
+      7000,
       anim.translation,
       fn.SIGMOID,
-      -200,
-      -200
+      -460,
+      0
     );
     this.addKeyframe(
-      this.pepeHandTop,
-      3000,
-      anim.rotation,
+      this.pepeToiletTop,
+      7000,
+      anim.translation,
       fn.SIGMOID,
-      500,
-      400,
-      300
+      -460,
+      0
+    );
+    this.addKeyframe(
+      this.pepeToiletBottom,
+      7000,
+      anim.translation,
+      fn.SIGMOID,
+      -460,
+      0
     );
   }
 }
