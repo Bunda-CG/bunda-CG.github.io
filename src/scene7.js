@@ -666,6 +666,36 @@ export class StareScene extends Scene {
       298
     );
     // #endregion
+
+    // #region pepeShrinkBody
+    this.addKeyframe(this.pepeBodyBottom, 17500, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.pepeBodyTop, 17500, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeBodyBottom,
+      20000,
+      anim.scaling,
+      fn.SIGMOID,
+      0.3,
+      0.3,
+      474,
+      298
+    );
+    this.addKeyframe(
+      this.pepeBodyTop,
+      20000,
+      anim.scaling,
+      fn.SIGMOID,
+      0.3,
+      0.3,
+      474,
+      298
+    );
+    // #endregion
+
+    // #region pepeLevitate
+    const bodyLevX = math.matrix([[], [], [], []]);
+    const bodyLevY = math.matrix([[], [], [], []]);
+    // #endregion
     // #endregion
   }
 }
