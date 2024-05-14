@@ -4,7 +4,7 @@ import { Scene } from "./scenes.js";
 
 export class TakingScene extends Scene {
   static START_AT = 0;
-  static END_AT = 999999999;
+  static END_AT = 28000;
   constructor() {
     super();
     this.startAt = TakingScene.START_AT;
