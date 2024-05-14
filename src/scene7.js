@@ -127,12 +127,12 @@ export class StareScene extends Scene {
     // #endregion
 
     // #region path
-    this.path = new anim.cubicBezierSpline(
-      ...[517, 381],
-      ...[787, 439],
-      ...[308, 574],
-      ...[517, 700]
-    );
+    // this.path = new anim.cubicBezierSpline(
+    //   ...[517, 381],
+    //   ...[787, 439],
+    //   ...[308, 574],
+    //   ...[517, 700]
+    // );
     // #endregion
     // #endregion
   }
@@ -765,13 +765,13 @@ export class StareScene extends Scene {
       [451 + 29],
       [681 + 29],
       [294 + 29],
-      [451 + 29],
+      [451 + 29], //480
     ]);
     const rightEyeLevY = math.matrix([
       [291 + 9],
       [318 + 9],
       [345 + 9],
-      [371 + 9],
+      [371 + 9], //380
     ]);
     this.addKeyframe(
       this.pepeRightEyeBottom,
@@ -792,13 +792,23 @@ export class StareScene extends Scene {
     // #endregion
 
     // #region pepeLevitate2
-    // 451 291
+    // 451 371
     // ...[517, 381],
     // ...[787, 439],
     // ...[308, 574],
     // ...[517, 700]
-    const bodyLev2X = math.matrix([[517 + 0], [787 + 0], [308 + 0], [517 + 0]]);
-    const bodyLev2Y = math.matrix([[381 + 0], [439 + 0], [574 + 0], [700 + 0]]);
+    const bodyLev2X = math.matrix([
+      [517 - 66],
+      [787 - 66],
+      [308 - 66],
+      [517 - 66],
+    ]);
+    const bodyLev2Y = math.matrix([
+      [381 - 10],
+      [439 - 10],
+      [574 - 10],
+      [700 - 10],
+    ]);
     this.addKeyframe(
       this.pepeBodyBottom,
       30000,
@@ -807,78 +817,118 @@ export class StareScene extends Scene {
       bodyLev2X,
       bodyLev2Y
     );
-    // this.addKeyframe(
-    //   this.pepeBodyTop,
-    //   30000,
-    //   anim.splineTranslation,
-    //   fn.SIGMOID,
-    //   bodyLev2X,
-    //   bodyLev2Y
-    // );
+    this.addKeyframe(
+      this.pepeBodyTop,
+      30000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      bodyLev2X,
+      bodyLev2Y
+    );
 
-    this.addKeyframe(this.pepeLeftEyeBottom, 20000, anim.stay, fn.LINEAR);
-    this.addKeyframe(this.pepeLeftEyeTop, 20000, anim.stay, fn.LINEAR);
-    this.addKeyframe(this.pepeRightEyeBottom, 20000, anim.stay, fn.LINEAR);
-    this.addKeyframe(this.pepeRightEyeTop, 20000, anim.stay, fn.LINEAR);
-    // 458 300
+    // 458 380
     const leftEyeLev2X = math.matrix([
-      [451 + 7],
-      [681 + 7],
-      [294 + 7],
-      [451 + 7],
+      [517 - 59],
+      [787 - 59],
+      [308 - 59],
+      [517 - 59],
     ]);
     const leftEyeLev2Y = math.matrix([
-      [291 + 9],
-      [318 + 9],
-      [345 + 9],
-      [371 + 9],
+      [381 - 1],
+      [439 - 1],
+      [574 - 1],
+      [700 - 1],
     ]);
-    // this.addKeyframe(
-    //   this.pepeLeftEyeBottom,
-    //   30000,
-    //   anim.splineTranslation,
-    //   fn.SIGMOID,
-    //   leftEyeLev2X,
-    //   leftEyeLev2Y
-    // );
-    // this.addKeyframe(
-    //   this.pepeLeftEyeTop,
-    //   30000,
-    //   anim.splineTranslation,
-    //   fn.SIGMOID,
-    //   leftEyeLev2X,
-    //   leftEyeLev2Y
-    // );
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      30000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      leftEyeLev2X,
+      leftEyeLev2Y
+    );
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      30000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      leftEyeLev2X,
+      leftEyeLev2Y
+    );
 
-    // 480 300
+    // 480 380
     const rightEyeLev2X = math.matrix([
-      [451 + 29],
-      [681 + 29],
-      [294 + 29],
-      [451 + 29],
+      [517 - 37],
+      [787 - 37],
+      [308 - 37],
+      [517 - 37],
     ]);
     const rightEyeLev2Y = math.matrix([
-      [291 + 9],
-      [318 + 9],
-      [345 + 9],
-      [371 + 9],
+      [381 - 1],
+      [439 - 1],
+      [574 - 1],
+      [700 - 1],
     ]);
-    // this.addKeyframe(
-    //   this.pepeRightEyeBottom,
-    //   30000,
-    //   anim.splineTranslation,
-    //   fn.SIGMOID,
-    //   rightEyeLev2X,
-    //   rightEyeLev2Y
-    // );
-    // this.addKeyframe(
-    //   this.pepeRightEyeTop,
-    //   30000,
-    //   anim.splineTranslation,
-    //   fn.SIGMOID,
-    //   rightEyeLev2X,
-    //   rightEyeLev2Y
-    // );
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      30000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      rightEyeLev2X,
+      rightEyeLev2Y
+    );
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      30000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      rightEyeLev2X,
+      rightEyeLev2Y
+    );
+    // #endregion
+
+    // #region janitorLookUp
+    this.addKeyframe(this.janitorLeftEyeBottom, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.janitorLeftEyeTop, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.janitorRightEyeBottom, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(this.janitorRightEyeTop, 20000, anim.stay, fn.LINEAR);
+
+    this.addKeyframe(
+      this.janitorLeftEyeBottom,
+      30000,
+      anim.rotation,
+      fn.SIGMOID,
+      30,
+      198,
+      266
+    );
+    this.addKeyframe(
+      this.janitorLeftEyeTop,
+      30000,
+      anim.rotation,
+      fn.SIGMOID,
+      30,
+      198,
+      266
+    );
+    this.addKeyframe(
+      this.janitorRightEyeBottom,
+      30000,
+      anim.rotation,
+      fn.SIGMOID,
+      30,
+      198,
+      266
+    );
+    this.addKeyframe(
+      this.janitorRightEyeTop,
+      30000,
+      anim.rotation,
+      fn.SIGMOID,
+      30,
+      198,
+      266
+    );
     // #endregion
     // #endregion
   }
