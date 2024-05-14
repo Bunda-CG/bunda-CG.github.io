@@ -218,13 +218,16 @@ export class splineChain extends cubicBezierSpline {
     return new point(xPrime, yPrime);
   }
 
-  addPoint(x, y) {
+  addPoint(x, y, ...more) {
     const p3 = this.pointlist[this.pointlist.length - 1];
     const p2 = this.pointlist[this.pointlist.length - 2];
     const p1 = this.pointlist[this.pointlist.length - 3];
     const p0new = new point(p3.x, p3.y);
     const p1new = this.findP1(p3.x, p3.y, p2.x, p2.y);
-    const p2new = this.findP2(p3.x, p3.y, p2.x, p2.y, p1.x, p1.y);
+    const p2new =
+      more.length !== 2
+        ? this.findP2(p3.x, p3.y, p2.x, p2.y, p1.x, p1.y)
+        : new point(...more);
 
     this.pointlist.push(p0new); // p0
     this.pointlist.push(p1new); // p1
@@ -235,34 +238,22 @@ export class splineChain extends cubicBezierSpline {
   }
 
   draw(gp) {
+    // alert();
     if (!this.isShow) return;
-    super.draw(gp);
-    let interval = 1 / 1024;
-    let u = 0;
-    let u1;
-    let px;
-    let py;
-    let sectionOffset = this.sectionPointer * 4;
-    console.log(this.pointlist);
-
-    while (u < 1) {
-      u1 = 1 - u;
-      px =
-        this.pointlist[sectionOffset + 0].x * u1 * u1 * u1 +
-        this.pointlist[sectionOffset + 1].x * 3 * u * u1 * u1 +
-        this.pointlist[sectionOffset + 2].x * 3 * u * u * u1 +
-        this.pointlist[sectionOffset + 3].x * u * u * u;
-      py =
-        this.pointlist[sectionOffset + 0].y * u1 * u1 * u1 +
-        this.pointlist[sectionOffset + 1].y * 3 * u * u1 * u1 +
-        this.pointlist[sectionOffset + 2].y * 3 * u * u * u1 +
-        this.pointlist[sectionOffset + 3].y * u * u * u;
-
-      gp.setPixel(parseInt(px), parseInt(py));
-      u = u + interval;
+    for (; this.sectionPointer < this.sectionNum; this.sectionPointer++) {
+      let sectionOffset = this.sectionPointer * 4;
+      const p0 = this.pointlist[sectionOffset + 0];
+      const p1 = this.pointlist[sectionOffset + 1];
+      const p2 = this.pointlist[sectionOffset + 2];
+      const p3 = this.pointlist[sectionOffset + 3];
+      const tempSpline = new cubicBezierSpline(
+        ...[p0.x, p0.y],
+        ...[p1.x, p1.y],
+        ...[p2.x, p2.y],
+        ...[p3.x, p3.y]
+      );
+      tempSpline.draw(gp);
     }
-    this.sectionPointer++;
-    if (this.sectionPointer < this.sectionNum) this.draw();
     this.sectionPointer = 0;
   }
 }
