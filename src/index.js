@@ -8,6 +8,7 @@ import * as sc from "./scenes.js";
 import { TakingScene } from "./scene1.js";
 import * as sc2 from "./scene2.js";
 import * as sc3 from "./scene3.js";
+import * as sc4 from "./scene4.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -40,15 +41,18 @@ function runner() {
 const takingScene = new TakingScene();
 const fecusScene = new sc2.FecusScene();
 const walkOutScene = new sc3.walkScene();
+const lookforhelpScene= new sc4.LookforhelpScene();
 // animate zone
 takingScene.makeAnimate();
 fecusScene.makeAnimate();
 walkOutScene.makeAnimate();
+lookforhelpScene.makeAnimate();
 
 // push zone
 scenes.push(takingScene);
 scenes.push(fecusScene);
 scenes.push(walkOutScene);
+scenes.push(lookforhelpScene);
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
