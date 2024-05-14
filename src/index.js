@@ -6,6 +6,7 @@ import * as anim from "./helperTools/animation.js";
 import * as kf from "./helperTools/keyframe.js";
 import * as sc from "./scenes.js";
 import { TakingScene } from "./scene1.js";
+import * as sc2 from "./scene2.js";
 
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
@@ -36,11 +37,14 @@ function runner() {
 
 // define zone
 const takingScene = new TakingScene();
+const fecusScene = new sc2.FecusScene();
 // animate zone
 takingScene.makeAnimate();
+fecusScene.makeAnimate();
 
 // push zone
 scenes.push(takingScene);
+scenes.push(fecusScene);
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
