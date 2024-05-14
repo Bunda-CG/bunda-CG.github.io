@@ -4,7 +4,7 @@ import { Scene } from "./scenes.js";
 
 export class TakingScene extends Scene {
   static START_AT = 0;
-  static END_AT = 300000;
+  static END_AT = 999999999;
   constructor() {
     super();
     this.startAt = TakingScene.START_AT;
@@ -40,11 +40,12 @@ export class TakingScene extends Scene {
     // #endregion
 
     // #region path
+    // 626 334
     this.path = new anim.cubicBezierSpline(
-      ...[487, 438],
-      ...[290, 293],
-      ...[449, 102],
-      ...[567, 431]
+      ...[581 + 45, 291 + 43],
+      ...[500 + 45, 409 + 43],
+      ...[428 + 45, 292 + 43],
+      ...[419 + 45, 188 + 43]
     );
     // #endregion
 
@@ -217,6 +218,17 @@ export class TakingScene extends Scene {
       0,
       491
     );
+    this.addKeyframe(this.pepeToiletTop, 12000, anim.stay, fn.LINEAR);
+    const bodyJumpX = math.matrix([[508], [427], [355], [346]]);
+    const bodyJumpY = math.matrix([[364], [482], [365], [261]]);
+    this.addKeyframe(
+      this.pepeToiletTop,
+      14000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      bodyJumpX,
+      bodyJumpY
+    );
     // #endregion
 
     // #region bottom
@@ -235,6 +247,15 @@ export class TakingScene extends Scene {
       fn.SIGMOID,
       0,
       491
+    );
+    this.addKeyframe(this.pepeToiletBottom, 12000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeToiletBottom,
+      14000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      bodyJumpX,
+      bodyJumpY
     );
     // #endregion
     // #endregion
@@ -268,6 +289,66 @@ export class TakingScene extends Scene {
       558,
       390
     );
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      8800,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      2,
+      558,
+      390
+    );
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      9000,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      1.5,
+      558,
+      390
+    );
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      9200,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      0.6667,
+      558,
+      390
+    );
+    this.addKeyframe(this.pepeLeftEyeBottom, 12000, anim.stay, fn.LINEAR);
+    // [546, 384] //start -31 -5
+    const leftEyeJumpX = math.matrix([[546], [465], [393], [384]]);
+    const leftEyeJumpY = math.matrix([[384], [502], [385], [281]]);
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      14000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      leftEyeJumpX,
+      leftEyeJumpY
+    );
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      16000,
+      anim.translation,
+      fn.SIGMOID,
+      50,
+      0
+    );
+    this.addKeyframe(this.pepeLeftEyeBottom, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeLeftEyeBottom,
+      22000,
+      anim.rotation,
+      fn.SIGMOID,
+      -30,
+      446,
+      282
+    );
 
     this.addKeyframe(this.pepeLeftEyeTop, 100, anim.hide, fn.LINEAR, 545, -103);
     this.addKeyframe(
@@ -288,6 +369,63 @@ export class TakingScene extends Scene {
       0.5,
       558,
       390
+    );
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      8800,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      2,
+      558,
+      390
+    );
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      9000,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      1.5,
+      558,
+      390
+    );
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      9200,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      0.6667,
+      558,
+      390
+    );
+    this.addKeyframe(this.pepeLeftEyeTop, 12000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      14000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      leftEyeJumpX,
+      leftEyeJumpY
+    );
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      16000,
+      anim.translation,
+      fn.SIGMOID,
+      50,
+      0
+    );
+    this.addKeyframe(this.pepeLeftEyeTop, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeLeftEyeTop,
+      22000,
+      anim.rotation,
+      fn.SIGMOID,
+      -30,
+      446,
+      282
     );
     // #endregion
 
@@ -319,6 +457,66 @@ export class TakingScene extends Scene {
       558,
       390
     );
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      8800,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      2,
+      558,
+      390
+    );
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      9000,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      1.5,
+      558,
+      390
+    );
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      9200,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      0.6667,
+      558,
+      390
+    );
+    this.addKeyframe(this.pepeRightEyeBottom, 12000, anim.stay, fn.LINEAR);
+    // [585, 385] //start -8 -4
+    const rightEyeJumpX = math.matrix([[585], [504], [432], [423]]);
+    const rightEyeJumpY = math.matrix([[385], [503], [386], [282]]);
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      14000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      rightEyeJumpX,
+      rightEyeJumpY
+    );
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      16000,
+      anim.translation,
+      fn.SIGMOID,
+      50,
+      0
+    );
+    this.addKeyframe(this.pepeRightEyeBottom, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeRightEyeBottom,
+      22000,
+      anim.rotation,
+      fn.SIGMOID,
+      -30,
+      446,
+      282
+    );
 
     this.addKeyframe(
       this.pepeRightEyeTop,
@@ -347,6 +545,63 @@ export class TakingScene extends Scene {
       558,
       390
     );
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      8800,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      2,
+      558,
+      390
+    );
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      9000,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      1.5,
+      558,
+      390
+    );
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      9200,
+      anim.scaling,
+      fn.SIGMOID,
+      1,
+      0.6667,
+      558,
+      390
+    );
+    this.addKeyframe(this.pepeRightEyeTop, 12000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      14000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      rightEyeJumpX,
+      rightEyeJumpY
+    );
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      16000,
+      anim.translation,
+      fn.SIGMOID,
+      50,
+      0
+    );
+    this.addKeyframe(this.pepeRightEyeTop, 20000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeRightEyeTop,
+      22000,
+      anim.rotation,
+      fn.SIGMOID,
+      -30,
+      446,
+      282
+    );
     // #endregion
     // #endregion
 
@@ -370,6 +625,61 @@ export class TakingScene extends Scene {
       -76,
       -67
     );
+    this.addKeyframe(this.pepeHandBottom, 9500, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeHandBottom,
+      11000,
+      anim.translation,
+      fn.SIGMOID,
+      79,
+      37
+    );
+    this.addKeyframe(this.pepeHandBottom, 12000, anim.stay, fn.LINEAR);
+    const handJumpX = math.matrix([[626], [545], [473], [464]]);
+    const handJumpY = math.matrix([[334], [452], [335], [231]]);
+    this.addKeyframe(
+      this.pepeHandBottom,
+      14000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      handJumpX,
+      handJumpY
+    );
+    this.addKeyframe(
+      this.pepeHandBottom,
+      16000,
+      anim.translation,
+      fn.SIGMOID,
+      -57,
+      0
+    );
+    this.addKeyframe(
+      this.pepeHandBottom,
+      17000,
+      anim.shearx,
+      fn.SIGMOID,
+      1.01,
+      230
+    );
+    // to 643 481 from 408 231
+    this.addKeyframe(
+      this.pepeHandBottom,
+      19000,
+      anim.translation,
+      fn.SIGMOID,
+      235,
+      250
+    );
+    // -45 622 481
+    this.addKeyframe(
+      this.pepeHandBottom,
+      20000,
+      anim.rotation,
+      fn.SIGMOID,
+      -45,
+      622,
+      481
+    );
     // #endregion
 
     // #region handTop
@@ -391,11 +701,64 @@ export class TakingScene extends Scene {
       -76,
       -67
     );
+    this.addKeyframe(this.pepeHandTop, 9500, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeHandTop,
+      11000,
+      anim.translation,
+      fn.SIGMOID,
+      79,
+      37
+    );
+    this.addKeyframe(this.pepeHandTop, 12000, anim.stay, fn.LINEAR);
+    this.addKeyframe(
+      this.pepeHandTop,
+      14000,
+      anim.splineTranslation,
+      fn.SIGMOID,
+      handJumpX,
+      handJumpY
+    );
+    this.addKeyframe(
+      this.pepeHandTop,
+      16000,
+      anim.translation,
+      fn.SIGMOID,
+      -57,
+      0
+    );
+    this.addKeyframe(
+      this.pepeHandTop,
+      17000,
+      anim.shearx,
+      fn.SIGMOID,
+      1.01,
+      230
+    );
+    // to 643 481 from 408 231
+    this.addKeyframe(
+      this.pepeHandTop,
+      19000,
+      anim.translation,
+      fn.SIGMOID,
+      235,
+      250
+    );
+    // -45 622 481
+    this.addKeyframe(
+      this.pepeHandTop,
+      20000,
+      anim.rotation,
+      fn.SIGMOID,
+      -45,
+      622,
+      481
+    );
     // #endregion
     // #endregion
 
     // #region path
-    this.addKeyframe(this.path, 100, anim.hide, fn.LINEAR, 508, -127);
+    // this.addKeyframe(this.path, 100, anim.hide, fn.LINEAR, 508, -127);
     // #endregion
     // #endregion
   }
