@@ -5,12 +5,18 @@ import * as tm from "./helperTools/timer.js";
 import * as anim from "./helperTools/animation.js";
 import * as kf from "./helperTools/keyframe.js";
 
+import { TakingScene } from "./scene1.js";
+import * as sc2 from "./scene2.js";
+import * as sc3 from "./scene3.js";
+import * as sc4 from "./scene4.js";
+import * as sc5 from "./scene5.js";
+import * as sc6 from "./scene6.js";
+import * as sc7 from "./scene7.js";
+
 const gp = new elem.Graphic();
 const timer = new tm.Timer();
-const objectlist = [];
-const kfc = new kf.KeyframeCenter(objectlist, timer);
-
-timer.start();
+const scenes = [];
+const kfc = new kf.KeyframeCenter(scenes, timer);
 
 function runner() {
   const start = new Date();
@@ -18,7 +24,7 @@ function runner() {
   kfc.update();
 
   //draw all object
-  anim.drawAll(objectlist);
+  anim.drawScenes(scenes, gp);
 
   gp.update();
 
@@ -33,45 +39,31 @@ function runner() {
 }
 
 // define zone
-const testspline = new anim.cubicBezierSpline(
-  gp,
-  200,
-  200,
-  220,
-  500,
-  280,
-  500,
-  300,
-  200
-);
-const testSplineChain = new anim.splineChain(
-  gp,
-  700,
-  500,
-  650,
-  400,
-  500,
-  400,
-  400,
-  400
-);
-testSplineChain.addPoint(300, 450);
-
-// push zone
-objectlist.push(testspline);
-objectlist.push(testSplineChain);
+const takingScene = new TakingScene();
+const fecusScene = new sc2.FecusScene();
+const walkOutScene = new sc3.walkScene();
+const lookforhelpScene = new sc4.LookforhelpScene();
+const walkInScene = new sc5.walkwithScene();
+const tittaScene = new sc6.TittaScene();
+const stareScene = new sc7.StareScene();
 
 // animate zone
-testspline.addKeyframe(1000, anim.translation, fn.BELL, -200, -200);
-testspline.addKeyframe(2000, anim.translation, fn.CONSTANT, 200, 200);
-testspline.addKeyframe(3000, anim.rotation, fn.BELL, -90, 300, 300);
-testspline.addKeyframe(4000, anim.scaling, fn.BELL, 0.5, 0.5, 200, 300);
-testspline.addKeyframe(5000, anim.scaling, fn.CONSTANT, 0.5, 0.5, 0, 0);
-testspline.addKeyframe(6000, anim.shearx, fn.CONSTANT, 2, 200);
-testspline.addKeyframe(7000, anim.translation, fn.BELL, 200, 200);
-testspline.addKeyframe(8000, anim.sheary, fn.BELL, -2, 200);
+takingScene.makeAnimate();
+fecusScene.makeAnimate();
+walkOutScene.makeAnimate();
+lookforhelpScene.makeAnimate();
+walkInScene.makeAnimate();
+tittaScene.makeAnimate();
+stareScene.makeAnimate();
 
-testSplineChain.addKeyframe(1000, anim.rotation, fn.CONSTANT, 180, 400, 300);
+// push zone
+scenes.push(takingScene);
+scenes.push(fecusScene);
+scenes.push(walkOutScene);
+scenes.push(lookforhelpScene);
+scenes.push(walkInScene);
+scenes.push(tittaScene);
+scenes.push(stareScene);
 
 //-----------------------------------------------------------------------------------------------------------------------
 let fpsCapText = "FPS Capacity: " + cf.FPS;
@@ -79,3 +71,25 @@ let frameTimeText = "Frame Time: " + fn.ROUND(cf.FRAME_TIME, 2) + "ms";
 elem.print(fpsCapText, frameTimeText);
 
 setInterval(runner, cf.FRAME_TIME);
+
+const playPauseButton = document.getElementById(cf.PLAY_BUTTON);
+playPauseButton.innerHTML = "Play";
+const refreshButton = document.getElementById(cf.REFRESH_BUTTON);
+refreshButton.innerHTML = "Refresh";
+function playPause(event) {
+  if (playPauseButton.innerHTML === "Play") {
+    timer.start();
+    playPauseButton.innerHTML = "Pause";
+    refreshButton.hidden = true;
+  } else {
+    timer.stop();
+    playPauseButton.innerHTML = "Play";
+    refreshButton.hidden = false;
+  }
+}
+
+function refresh(event) {
+  location.reload();
+}
+playPauseButton.addEventListener("click", playPause);
+refreshButton.addEventListener("click", refresh);

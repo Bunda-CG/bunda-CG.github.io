@@ -6,3 +6,7 @@
 #updateConsole, #console {
     font-family: monospace;
 }
+
+#refresh {
+    color: crimson;
+}

@@ -1,5 +1,6 @@
 import * as cf from "../config.js";
 import * as kf from "./keyframe.js";
+import * as fn from "../function.js";
 
 class point {
   constructor(x, y) {
@@ -8,21 +9,24 @@ class point {
   }
 }
 
-class obj {
-  constructor(gp) {
+export class obj {
+  constructor() {
     this.pointlist = [];
+    this.refPoints = [];
+
     this.keyframes = [];
-    this.gp = gp;
+    this.keyframePointer = 0;
+
+    this.isShow = true;
     this.red = cf.RED;
     this.green = cf.GREEN;
     this.blue = cf.BLUE;
     this.alpha = cf.ALPHA;
   }
 
-  draw() {
-    for (let i = 0; i < this.pointlist.length; i++) {
-      this.gp.setPixel(this.pointlist[i].x, this.pointlist[i].y);
-    }
+  draw(gp) {
+    if (!this.isShow) return;
+    gp.setColor(this.red, this.green, this.blue, this.alpha);
   }
 
   setColor(r, g, b, a) {
@@ -40,6 +44,14 @@ class obj {
       progressFunc
     );
     this.keyframes.push(keyframe);
+  }
+
+  updateReference() {
+    this.refPoints = [];
+    this.pointlist.forEach((oldPoint) => {
+      const newPoint = new point(oldPoint.x, oldPoint.y);
+      this.refPoints.push(newPoint);
+    });
   }
 }
 
@@ -66,14 +78,19 @@ function drawLine(gp, x1, y1, x2, y2) {
 }
 
 export class Line extends obj {
-  constructor(gp, x1, y1, x2, y2) {
-    super(gp);
+  constructor(x1, y1, x2, y2) {
+    super();
     this.pointlist.push(new point(x1, y1));
     this.pointlist.push(new point(x2, y2));
+
+    this.refPoints.push(new point(x1, y1));
+    this.refPoints.push(new point(x2, y2));
   }
-  draw() {
+  draw(gp) {
+    if (!this.isShow) return;
+    super.draw(gp);
     drawLine(
-      this.gp,
+      gp,
       this.pointlist[0].x,
       this.pointlist[0].y,
       this.pointlist[1].x,
@@ -85,25 +102,33 @@ export class Line extends obj {
 export class incompletepolygon extends obj {
   addPoint(x, y) {
     this.pointlist.push(new point(x, y));
+    this.refPoints.push(new point(x, y));
   }
 
-  draw() {
+  draw(gp) {
+    if (!this.isShow) return;
+    super.draw(gp);
     if (this.pointlist.length < 2) {
       return;
     }
 
     for (let i = 0; i < this.pointlist.length - 1; i++) {
       this.drawLine(
+        gp,
         this.pointlist[i],
         this.pointlist[(i + 1) % this.pointlist.length]
       );
     }
 
     // Draw the last line connecting the last point to the first point to close the polygon
-    this.drawLine(this.pointlist[this.pointlist.length - 1], this.pointlist[0]);
+    this.drawLine(
+      gp,
+      this.pointlist[this.pointlist.length - 1],
+      this.pointlist[0]
+    );
   }
 
-  drawLine(point1, point2) {
+  drawLine(gp, point1, point2) {
     // Bresenham's line algorithm to draw a line between two points
     let dx = Math.abs(point2.x - point1.x);
     let dy = Math.abs(point2.y - point1.y);
@@ -112,7 +137,7 @@ export class incompletepolygon extends obj {
     let err = dx - dy;
 
     while (true) {
-      this.gp.setPixel(point1.x, point1.y);
+      gp.setPixel(point1.x, point1.y);
       if (point1.x === point2.x && point1.y === point2.y) break;
       let e2 = 2 * err;
       if (e2 > -dy) {
@@ -128,15 +153,22 @@ export class incompletepolygon extends obj {
 }
 
 export class cubicBezierSpline extends obj {
-  constructor(gp, x0, y0, x1, y1, x2, y2, x3, y3) {
-    super(gp);
+  constructor(x0, y0, x1, y1, x2, y2, x3, y3) {
+    super();
     this.pointlist.push(new point(x0, y0));
     this.pointlist.push(new point(x1, y1));
     this.pointlist.push(new point(x2, y2));
     this.pointlist.push(new point(x3, y3));
+
+    this.refPoints.push(new point(x0, y0));
+    this.refPoints.push(new point(x1, y1));
+    this.refPoints.push(new point(x2, y2));
+    this.refPoints.push(new point(x3, y3));
   }
 
-  draw() {
+  draw(gp) {
+    if (!this.isShow) return;
+    super.draw(gp);
     let interval = 1 / cf.RENDER_PRECISION;
     let u = 0;
     let u1;
@@ -159,7 +191,7 @@ export class cubicBezierSpline extends obj {
       px = parseInt(px);
       py = parseInt(py);
 
-      drawLine(this.gp, lastpx, lastpy, px, py);
+      drawLine(gp, lastpx, lastpy, px, py);
 
       lastpx = px;
       lastpy = py;
@@ -169,8 +201,8 @@ export class cubicBezierSpline extends obj {
 }
 
 export class splineChain extends cubicBezierSpline {
-  constructor(gp, x0, y0, x1, y1, x2, y2, x3, y3) {
-    super(gp, x0, y0, x1, y1, x2, y2, x3, y3);
+  constructor(x0, y0, x1, y1, x2, y2, x3, y3) {
+    super(x0, y0, x1, y1, x2, y2, x3, y3);
     this.sectionNum = 1;
     this.sectionPointer = 0;
   }
@@ -187,13 +219,16 @@ export class splineChain extends cubicBezierSpline {
     return new point(xPrime, yPrime);
   }
 
-  addPoint(x, y) {
+  addPoint(x, y, ...more) {
     const p3 = this.pointlist[this.pointlist.length - 1];
     const p2 = this.pointlist[this.pointlist.length - 2];
     const p1 = this.pointlist[this.pointlist.length - 3];
     const p0new = new point(p3.x, p3.y);
     const p1new = this.findP1(p3.x, p3.y, p2.x, p2.y);
-    const p2new = this.findP2(p3.x, p3.y, p2.x, p2.y, p1.x, p1.y);
+    const p2new =
+      more.length !== 2
+        ? this.findP2(p3.x, p3.y, p2.x, p2.y, p1.x, p1.y)
+        : new point(...more);
 
     this.pointlist.push(p0new); // p0
     this.pointlist.push(p1new); // p1
@@ -203,50 +238,87 @@ export class splineChain extends cubicBezierSpline {
     this.sectionNum++;
   }
 
-  draw() {
-    let interval = 1 / 1024;
-    let u = 0;
-    let u1;
-    let px;
-    let py;
-    let sectionOffset = this.sectionPointer * 4;
-    console.log(this.pointlist);
-
-    while (u < 1) {
-      u1 = 1 - u;
-      px =
-        this.pointlist[sectionOffset + 0].x * u1 * u1 * u1 +
-        this.pointlist[sectionOffset + 1].x * 3 * u * u1 * u1 +
-        this.pointlist[sectionOffset + 2].x * 3 * u * u * u1 +
-        this.pointlist[sectionOffset + 3].x * u * u * u;
-      py =
-        this.pointlist[sectionOffset + 0].y * u1 * u1 * u1 +
-        this.pointlist[sectionOffset + 1].y * 3 * u * u1 * u1 +
-        this.pointlist[sectionOffset + 2].y * 3 * u * u * u1 +
-        this.pointlist[sectionOffset + 3].y * u * u * u;
-
-      this.gp.setPixel(parseInt(px), parseInt(py));
-      u = u + interval;
+  draw(gp) {
+    // alert();
+    if (!this.isShow) return;
+    for (; this.sectionPointer < this.sectionNum; this.sectionPointer++) {
+      let sectionOffset = this.sectionPointer * 4;
+      const p0 = this.pointlist[sectionOffset + 0];
+      const p1 = this.pointlist[sectionOffset + 1];
+      const p2 = this.pointlist[sectionOffset + 2];
+      const p3 = this.pointlist[sectionOffset + 3];
+      const tempSpline = new cubicBezierSpline(
+        ...[p0.x, p0.y],
+        ...[p1.x, p1.y],
+        ...[p2.x, p2.y],
+        ...[p3.x, p3.y]
+      );
+      tempSpline.draw(gp);
     }
-    this.sectionPointer++;
-    if (this.sectionPointer < this.sectionNum) this.draw();
     this.sectionPointer = 0;
   }
 }
 
-export function drawAll(objectlist) {
+export function drawAll(objectlist, gp) {
   for (let i = 0; i < objectlist.length; i++) {
-    objectlist[i].draw();
+    objectlist[i].draw(gp);
   }
+}
+
+export function drawScenes(scenes, gp) {
+  scenes.forEach((scene) => {
+    for (const property in scene) {
+      const object = scene[property];
+      if (!(object instanceof obj)) continue;
+      if (!object.isShow) continue;
+      object.draw(gp);
+    }
+  });
+}
+
+export function setPosition(obj, x, y, percent) {
+  let pointNum = obj.pointlist.length;
+  if (pointNum < 1) return;
+
+  x = Math.round(x * percent);
+  y = Math.round(y * percent);
+
+  let baseOldX = obj.refPoints[0].x;
+  let baseOldY = obj.refPoints[0].y;
+  obj.pointlist[0].x = x;
+  obj.pointlist[0].y = y;
+  for (let i = 1; i < pointNum; i++) {
+    obj.pointlist[i].x = obj.refPoints[i].x - baseOldX + x;
+    obj.pointlist[i].y = obj.refPoints[i].y - baseOldY + y;
+  }
+}
+
+export function hide(obj, x, y, percent) {
+  setPosition(obj, x, y, 1);
 }
 
 export function translation(obj, tx, ty, percent) {
   tx = Math.round(tx * percent);
   ty = Math.round(ty * percent);
   for (let i = 0; i < obj.pointlist.length; i++) {
-    obj.pointlist[i].x = obj.pointlist[i].x + tx;
-    obj.pointlist[i].y = obj.pointlist[i].y + ty;
+    obj.pointlist[i].x = obj.refPoints[i].x + tx;
+    obj.pointlist[i].y = obj.refPoints[i].y + ty;
   }
+}
+
+export function splineTranslation(obj, condMtx, condMty, percent) {
+  let u0 = 1;
+  let u1 = percent;
+  let u2 = u1 * percent;
+  let u3 = u2 * percent;
+  const u = math.matrix([[u3, u2, u1, u0]]);
+  const percentSpline = math.multiply(u, fn.BEZIER_MATRIX_CUBIC);
+  const newX = math.multiply(percentSpline, condMtx);
+  const newY = math.multiply(percentSpline, condMty);
+  let x = newX.subset(math.index(0, 0));
+  let y = newY.subset(math.index(0, 0));
+  // alert(x + "," + y);
+  setPosition(obj, x, y, 1);
 }
 
 export function rotation(obj, degree, centerx, centery, percent) {
@@ -264,8 +336,8 @@ export function rotation(obj, degree, centerx, centery, percent) {
   ]);
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
-      [obj.pointlist[i].x],
-      [obj.pointlist[i].y],
+      [obj.refPoints[i].x],
+      [obj.refPoints[i].y],
       [1],
     ]);
     const res = math.multiply(compMatrix, pointMatrix);
@@ -280,8 +352,8 @@ export function scaling(obj, sx, sy, fixedpointx, fixedpointy, percent) {
   sy = 1 + (sy - 1) * percent;
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
-      [obj.pointlist[i].x],
-      [obj.pointlist[i].y],
+      [obj.refPoints[i].x],
+      [obj.refPoints[i].y],
       [1],
     ]);
     const compMatrix = math.matrix([
@@ -301,8 +373,8 @@ export function shearx(obj, sh, yref, percent) {
   sh = sh * percent;
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
-      [obj.pointlist[i].x],
-      [obj.pointlist[i].y],
+      [obj.refPoints[i].x],
+      [obj.refPoints[i].y],
       [1],
     ]);
     const compMatrix = math.matrix([
@@ -322,8 +394,8 @@ export function sheary(obj, sh, xref, percent) {
   sh = sh * percent;
   for (let i = 0; i < obj.pointlist.length; i++) {
     const pointMatrix = math.matrix([
-      [obj.pointlist[i].x],
-      [obj.pointlist[i].y],
+      [obj.refPoints[i].x],
+      [obj.refPoints[i].y],
       [1],
     ]);
     const compMatrix = math.matrix([
@@ -338,3 +410,5 @@ export function sheary(obj, sh, xref, percent) {
     obj.pointlist[i].y = parseInt(res.subset(math.index(1, 0)));
   }
 }
+
+export function stay(obj, percent) {}

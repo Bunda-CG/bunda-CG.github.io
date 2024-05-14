@@ -2,6 +2,8 @@ export const CANVAS_NAME = "canvas";
 export const CONSOLE_NAME = "console";
 export const CONSOLE_UPDATE = "updateConsole";
 export const MOUSE_COORD = "mousecoord";
+export const PLAY_BUTTON = "playPause";
+export const REFRESH_BUTTON = "refresh";
 
 export const WIDTH = 800;
 export const HEIGHT = 600;
