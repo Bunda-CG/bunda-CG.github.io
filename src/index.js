@@ -18,8 +18,6 @@ const timer = new tm.Timer();
 const scenes = [];
 const kfc = new kf.KeyframeCenter(scenes, timer);
 
-timer.start();
-
 function runner() {
   const start = new Date();
   gp.refresh();
@@ -73,3 +71,25 @@ let frameTimeText = "Frame Time: " + fn.ROUND(cf.FRAME_TIME, 2) + "ms";
 elem.print(fpsCapText, frameTimeText);
 
 setInterval(runner, cf.FRAME_TIME);
+
+const playPauseButton = document.getElementById(cf.PLAY_BUTTON);
+playPauseButton.innerHTML = "Play";
+const refreshButton = document.getElementById(cf.REFRESH_BUTTON);
+refreshButton.innerHTML = "Refresh";
+function playPause(event) {
+  if (playPauseButton.innerHTML === "Play") {
+    timer.start();
+    playPauseButton.innerHTML = "Pause";
+    refreshButton.hidden = true;
+  } else {
+    timer.stop();
+    playPauseButton.innerHTML = "Play";
+    refreshButton.hidden = false;
+  }
+}
+
+function refresh(event) {
+  location.reload();
+}
+playPauseButton.addEventListener("click", playPause);
+refreshButton.addEventListener("click", refresh);

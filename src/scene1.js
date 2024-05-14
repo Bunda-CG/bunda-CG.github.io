@@ -135,7 +135,7 @@ export class TakingScene extends Scene {
 
     // #region toilet
     // #region ping
-    this.addKeyframe(this.toiletSeatPing, 100, anim.hide, fn.LINEAR, 656, -200);
+    this.addKeyframe(this.toiletSeatPing, 500, anim.hide, fn.LINEAR, 656, -200);
     this.addKeyframe(
       this.toiletSeatPing,
       5000,
@@ -147,7 +147,7 @@ export class TakingScene extends Scene {
     // #endregion
 
     // #region seat
-    this.addKeyframe(this.toiletSeatTop, 100, anim.hide, fn.LINEAR, 490, -242);
+    this.addKeyframe(this.toiletSeatTop, 500, anim.hide, fn.LINEAR, 490, -242);
     this.addKeyframe(
       this.toiletSeatTop,
       5000,
@@ -161,7 +161,7 @@ export class TakingScene extends Scene {
     // #region support
     this.addKeyframe(
       this.toiletSeatBottomLeft,
-      100,
+      500,
       anim.hide,
       fn.LINEAR,
       542,
@@ -178,7 +178,7 @@ export class TakingScene extends Scene {
 
     this.addKeyframe(
       this.toiletSeatBottomRight,
-      100,
+      500,
       anim.hide,
       fn.LINEAR,
       622,
@@ -196,7 +196,7 @@ export class TakingScene extends Scene {
     // #endregion
 
     // #region floor
-    this.addKeyframe(this.toiletFloor, 100, anim.hide, fn.LINEAR, 0, -302);
+    this.addKeyframe(this.toiletFloor, 500, anim.hide, fn.LINEAR, 0, -302);
     this.addKeyframe(
       this.toiletFloor,
       5000,
@@ -209,7 +209,7 @@ export class TakingScene extends Scene {
 
     // #region pepeBody
     // #region top
-    this.addKeyframe(this.pepeToiletTop, 100, anim.hide, fn.LINEAR, 508, -127);
+    this.addKeyframe(this.pepeToiletTop, 500, anim.hide, fn.LINEAR, 508, -127);
     this.addKeyframe(
       this.pepeToiletTop,
       5000,
@@ -234,7 +234,7 @@ export class TakingScene extends Scene {
     // #region bottom
     this.addKeyframe(
       this.pepeToiletBottom,
-      100,
+      500,
       anim.hide,
       fn.LINEAR,
       508,
@@ -264,7 +264,7 @@ export class TakingScene extends Scene {
     // #region leftEye
     this.addKeyframe(
       this.pepeLeftEyeBottom,
-      100,
+      500,
       anim.hide,
       fn.LINEAR,
       545,
@@ -371,7 +371,7 @@ export class TakingScene extends Scene {
       291
     );
 
-    this.addKeyframe(this.pepeLeftEyeTop, 100, anim.hide, fn.LINEAR, 545, -103);
+    this.addKeyframe(this.pepeLeftEyeTop, 500, anim.hide, fn.LINEAR, 545, -103);
     this.addKeyframe(
       this.pepeLeftEyeTop,
       5000,
@@ -474,7 +474,7 @@ export class TakingScene extends Scene {
     // #region rightEye
     this.addKeyframe(
       this.pepeRightEyeBottom,
-      100,
+      500,
       anim.hide,
       fn.LINEAR,
       585,
@@ -583,7 +583,7 @@ export class TakingScene extends Scene {
 
     this.addKeyframe(
       this.pepeRightEyeTop,
-      100,
+      500,
       anim.hide,
       fn.LINEAR,
       585,
@@ -691,7 +691,7 @@ export class TakingScene extends Scene {
 
     // #region pepeHand
     // #region handBottom
-    this.addKeyframe(this.pepeHandBottom, 100, anim.hide, fn.LINEAR, 622, -127);
+    this.addKeyframe(this.pepeHandBottom, 500, anim.hide, fn.LINEAR, 622, -127);
     this.addKeyframe(
       this.pepeHandBottom,
       5000,
@@ -802,7 +802,7 @@ export class TakingScene extends Scene {
     // #endregion
 
     // #region handTop
-    this.addKeyframe(this.pepeHandTop, 100, anim.hide, fn.LINEAR, 622, -127);
+    this.addKeyframe(this.pepeHandTop, 500, anim.hide, fn.LINEAR, 622, -127);
     this.addKeyframe(
       this.pepeHandTop,
       5000,
